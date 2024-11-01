@@ -64,7 +64,7 @@ const Busqueda: React.FC<BusquedaProps> = ({ onSearch }) => {
           </Row>
           <Row>
             <Col className="d-flex justify-content-end">
-              <Button variant="primary" onClick={handleSearch} className="w-100">
+              <Button variant="primary" onClick={handleSearch} className="btn-sm w-50">
                 Buscar
               </Button>
             </Col>
