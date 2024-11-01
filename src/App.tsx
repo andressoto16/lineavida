@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { TabVentana, VentanaUsuario,CustomeTable } from 'eco-unp/ui';
-import Busqueda from './Panel/Busqueda';
+import { TabVentana, VentanaUsuario } from 'eco-unp/ui';
+import Busqueda from './Components/Consulta/Busqueda';
+import TablaConBuscador from './Components/Consulta/TablaConBuscador';
 
 const columnas = [
   { key: 'serial', label: 'Serial' },
@@ -23,25 +24,13 @@ function App() {
 
     {/* Tab para revision casos analista */}
     <TabVentana eventKey="Consultas" title="Consultas"> 
-    <Busqueda onSearch={function (value: string): void {
-          throw new Error('Function not implemented.');
-        } } />
-
-    <CustomeTable
+  
+    <TablaConBuscador
       columns={columnas}
       data={datos}
       // renderModalContent={RenderModalContent}
    />
     </TabVentana>
-
-    {/* Tab para consulta linea vida */}
-    <TabVentana eventKey="PanelEstadistico" title="Panel Estadistico">
-      <p>mostrar info linea de vida</p>
-      
-      {/* <ContactForm /> */}
-    </TabVentana>
-
-   
    
   </VentanaUsuario>
   );

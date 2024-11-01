@@ -62,13 +62,13 @@ const Busqueda: React.FC<BusquedaProps> = ({ onSearch }) => {
               </Form.Group>
             </Col>
           </Row>
-          <Row>
+          {/* <Row>
             <Col className="d-flex justify-content-end">
               <Button variant="primary" onClick={handleSearch} className="btn-sm w-50">
                 Buscar
               </Button>
             </Col>
-          </Row>
+          </Row> */}
         </div>
       </CardForm>
     </>
