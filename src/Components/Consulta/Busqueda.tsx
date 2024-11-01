@@ -39,7 +39,7 @@ const Busqueda: React.FC<BusquedaProps> = ({ onSearch }) => {
 
       {/* Tarjeta de Búsqueda */}
       <Card className="border-0 rounded-3 shadow mt-4">
-        <Card.Header className="text-center bg-dark text-light rounded-top">
+      <Card.Header style={{ backgroundColor: '#D13C47' }} className="text-center text-light rounded-top">
           <h4>Consulta por número de Celular o Cédula</h4>
         </Card.Header>
         <Card.Body>
