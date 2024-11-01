@@ -1,0 +1,47 @@
+/* Estilo del botón flotante */
+.btn-floating {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+  }
+   
+  /* Visor de PDF */
+  .pdf-viewer {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 50%;
+    height: 100%;
+    background-color: white;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+    transition: right 0.3s ease-in-out;
+    z-index: 999;
+  }
+   
+  /* Mostrar el visor cuando esté visible */
+  .pdf-viewer.visible {
+    right: 0;
+  }
+   
+  /* Botón para cerrar el visor */
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 20px;
+  }
+   
+  /* Contenido del visor de PDF */
+  .pdf-content {
+    padding: 20px;
+    overflow-y: auto;
+    height: 100%;
+  }

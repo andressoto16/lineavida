@@ -1,25 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { TabVentana, VentanaUsuario } from 'eco-unp/ui';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <VentanaUsuario>
+    
+
+    {/* Tab para revision casos analista */}
+    <TabVentana eventKey="Administracion" title="Administracion">
+    {/* <ContactForm />   */}
+    <h3>ventana para admin</h3>
+    </TabVentana>
+
+    {/* Tab para consulta linea vida */}
+    <TabVentana eventKey="LineaVida" title="Linea de Vida">
+      <p>mostrar info linea de vida</p>
+      
+      {/* <ContactForm /> */}
+    </TabVentana>
+
+   
+   
+  </VentanaUsuario>
   );
 }
 
