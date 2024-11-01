@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Table } from "react-bootstrap";
-import Buscador from "./Busqueda"; // Importa el componente Buscador
-import "../../Styles/TablaConBuscador.css"; // Asegúrate de que este archivo CSS esté en la ruta correcta
+import Buscador from "./Busqueda"; 
+import "../../Styles/TablaConBuscador.css"; 
 
 interface Column {
   key: string;

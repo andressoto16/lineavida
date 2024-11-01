@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TabVentana, VentanaUsuario } from 'eco-unp/ui';
-import Busqueda from './Components/Consulta/Busqueda';
 import TablaConBuscador from './Components/Consulta/TablaConBuscador';
 
 const columnas = [
@@ -9,30 +8,44 @@ const columnas = [
   { key: 'departamento', label: 'Departamento' },
   { key: 'ciudad', label: 'Ciudad'},
   { key: 'nivel_riesgo', label: 'Nivel de Riesgo', hasModal: true },
-  { key: 'telefono_contactoAnonimo', label: 'Celular', hasModal: true },
+  { key: 'telefonoAnonimo', label: 'Celular', hasModal: true },
 ];
 
-const datos = [
-  { serial: 1, cedulaAnonima:'231523345', departamento: 'Caqueta',ciudad:'Florencia', nivel_riesgo: '1',  telefono_contactoAnonimo:'xxxxxx2315' },
-  { serial: 2, cedulaAnonima:'233456678', departamento: 'Nariño',ciudad:'Tumaco', nivel_riesgo: '2', telefono_contactoAnonimo:'xxxxxx2315' },
-];
+const obtenerDatos = async () => {
+  try {
+    const response = await fetch('https://formulariopruebas.unp.gov.co/api-django/lineavida/');
+    if (!response.ok) {
+      throw new Error(`Error en la solicitud: ${response.status}`);
+    }
+    const datos = await response.json();
+    return datos;
+  } catch (error) {
+    console.error('Error al obtener los datos:', error);
+    return []; // Devuelve una lista vacía en caso de error
+  }
+};
 
 function App() {
+  const [datos, setDatos] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await obtenerDatos();
+      setDatos(result);
+    };
+    fetchData();
+  }, []);
+
   return (
     <VentanaUsuario>
-    
-
-    {/* Tab para revision casos analista */}
-    <TabVentana eventKey="Consultas" title="Consultas"> 
-  
-    <TablaConBuscador
-      columns={columnas}
-      data={datos}
-      // renderModalContent={RenderModalContent}
-   />
-    </TabVentana>
-   
-  </VentanaUsuario>
+      {/* Tab para revisión de casos analista */}
+      <TabVentana eventKey="Consultas" title="Consultas">
+        <TablaConBuscador
+          columns={columnas}
+          data={datos}
+        />
+      </TabVentana>
+    </VentanaUsuario>
   );
 }
 
