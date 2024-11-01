@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { TabVentana, VentanaUsuario,CustomeTable } from 'eco-unp/ui';
+import Busqueda from './Panel/Busqueda';
 
 const columnas = [
   { key: 'serial', label: 'Serial' },
@@ -21,7 +22,11 @@ function App() {
     
 
     {/* Tab para revision casos analista */}
-    <TabVentana eventKey="Consultas" title="Consultas">
+    <TabVentana eventKey="Consultas" title="Consultas"> 
+    <Busqueda onSearch={function (value: string): void {
+          throw new Error('Function not implemented.');
+        } } />
+
     <CustomeTable
       columns={columnas}
       data={datos}
