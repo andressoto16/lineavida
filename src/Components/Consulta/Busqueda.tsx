@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Row, Col, Button, Form, Container, Card } from 'react-bootstrap';
-import { Encabezado, CardForm } from 'eco-unp/ui';
+import { Card, Row, Col, Button, Form, Container } from 'react-bootstrap';
+import { Encabezado } from 'eco-unp/ui';
 
 interface BusquedaProps {
   onSearch: (type: string, value: string) => void;
@@ -43,7 +43,8 @@ const Busqueda: React.FC<BusquedaProps> = ({ onSearch }) => {
           <h4>Consulta por número de Celular o Cédula</h4>
         </Card.Header>
         <Card.Body>
-          <Row className="align-items-center mb-3">
+          <Row className="align-items-center">
+            {/* Selección de tipo de búsqueda */}
             <Col md={4}>
               <Form.Group controlId="searchType" className="mb-3">
                 <Form.Label>Seleccione el tipo de búsqueda</Form.Label>
@@ -53,7 +54,9 @@ const Busqueda: React.FC<BusquedaProps> = ({ onSearch }) => {
                 </Form.Select>
               </Form.Group>
             </Col>
-            <Col md={8}>
+
+            {/* Campo de entrada para número */}
+            <Col md={5}>
               <Form.Group controlId="searchTerm" className="mb-3">
                 <Form.Label>Ingrese el número de {searchType === 'cedula' ? 'cédula' : 'celular'}</Form.Label>
                 <Form.Control
@@ -64,10 +67,10 @@ const Busqueda: React.FC<BusquedaProps> = ({ onSearch }) => {
                 />
               </Form.Group>
             </Col>
-          </Row>
-          <Row>
-            <Col className="d-flex justify-content-center">
-              <Button variant="primary" onClick={handleSearch} className="btn-sm w-25">
+
+            {/* Botón de búsqueda */}
+            <Col md={3} className="d-flex justify-content-center">
+              <Button variant="primary" onClick={handleSearch} className="btn-sm w-75 mt-3">
                 Buscar
               </Button>
             </Col>
@@ -79,4 +82,3 @@ const Busqueda: React.FC<BusquedaProps> = ({ onSearch }) => {
 };
 
 export default Busqueda;
-
