@@ -26,10 +26,7 @@ const TablaConBuscador: React.FC<TablaConBuscadorProps> = ({ columns, data }) =>
       {/* Contenedor del buscador */}
       <div className="buscador-container">
         <Buscador onSearch={setSearchTerm} />
-      </div>
-
-      {/* Tabla de Resultados */}
-      <div className="table-container">
+     
         <Table striped bordered hover responsive>
           <thead>
             <tr>

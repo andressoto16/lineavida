@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Card, Row, Col, Button, Form, Container } from 'react-bootstrap';
-import { Encabezado } from 'eco-unp/ui';
+import Encabezado from './Encabezado'; // Asegúrate de que la ruta sea correcta
 
 interface BusquedaProps {
   onSearch: (type: string, value: string) => void;
@@ -30,7 +30,7 @@ const Busqueda: React.FC<BusquedaProps> = ({ onSearch }) => {
     <>
       {/* Encabezado */}
       <Container className="mt-3">
-        <Row className="justify-content-center">
+        <Row className="left">
           <Col xs={12} md={12} lg={11} xl={9}>
             <Encabezado dependencia="Linea Vida" />
           </Col>
@@ -39,7 +39,7 @@ const Busqueda: React.FC<BusquedaProps> = ({ onSearch }) => {
 
       {/* Tarjeta de Búsqueda */}
       <Card className="border-0 rounded-3 shadow mt-4">
-      <Card.Header style={{ backgroundColor: '#D13C47' }} className="text-center text-light rounded-top">
+        <Card.Header style={{ backgroundColor: '#D13C47' }} className="text-center text-light rounded-top">
           <h4>Consulta por número de Celular o Cédula</h4>
         </Card.Header>
         <Card.Body>
@@ -70,7 +70,11 @@ const Busqueda: React.FC<BusquedaProps> = ({ onSearch }) => {
 
             {/* Botón de búsqueda */}
             <Col md={3} className="d-flex justify-content-center">
-              <Button variant="primary" onClick={handleSearch} className="btn-sm w-75 mt-3">
+              <Button 
+                onClick={handleSearch} 
+                className="btn-sm w-75 mt-3" 
+                style={{ backgroundColor: '#D13C47', borderColor: '#D13C47' }}
+              >
                 Buscar
               </Button>
             </Col>
