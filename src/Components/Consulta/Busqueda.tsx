@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Row, Col, Button, Form, Container } from 'react-bootstrap';
-import { Encabezado, CardForm } from 'eco-unp/ui';
+import { Card, Row, Col, Button, Form, Container } from 'react-bootstrap';
+import { Encabezado } from 'eco-unp/ui';
 
 interface BusquedaProps {
   onSearch: (type: string, value: string) => void;
@@ -38,8 +38,11 @@ const Busqueda: React.FC<BusquedaProps> = ({ onSearch }) => {
       </Container>
 
       {/* Tarjeta de Búsqueda */}
-      <CardForm method="POST" titulo="Consulta por número de Celular o Cédula">
-        <div>
+      <Card className="border-0 rounded-3 shadow mt-4">
+        <Card.Header className="text-center bg-dark text-light rounded-top">
+          <h4>Consulta por número de Celular o Cédula</h4>
+        </Card.Header>
+        <Card.Body>
           <Row className="align-items-center mb-3">
             <Col md={4}>
               <Form.Group controlId="searchType" className="mb-3">
@@ -62,15 +65,15 @@ const Busqueda: React.FC<BusquedaProps> = ({ onSearch }) => {
               </Form.Group>
             </Col>
           </Row>
-          {/* <Row>
+          <Row>
             <Col className="d-flex justify-content-end">
-              <Button variant="primary" onClick={handleSearch} className="btn-sm w-50">
+              <Button variant="primary" onClick={handleSearch} className="btn-sm w-25">
                 Buscar
               </Button>
             </Col>
-          </Row> */}
-        </div>
-      </CardForm>
+          </Row>
+        </Card.Body>
+      </Card>
     </>
   );
 };
