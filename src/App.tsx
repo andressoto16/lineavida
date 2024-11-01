@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { TabVentana, VentanaUsuario,CustomeTable } from 'eco-unp/ui';
-
+import { TabVentana, VentanaUsuario } from 'eco-unp/ui';
+import TablaConBuscador from './Components/Consulta/TablaConBuscador';
 const columnas = [
   { key: 'serial', label: 'Serial' },
   { key: 'cedulaAnonima', label: 'Cedula'},
@@ -22,7 +22,7 @@ function App() {
 
     {/* Tab para revision casos analista */}
     <TabVentana eventKey="Consultas" title="Consultas">
-    <CustomeTable
+    <TablaConBuscador
       columns={columnas}
       data={datos}
       // renderModalContent={RenderModalContent}
