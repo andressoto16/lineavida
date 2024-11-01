@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Card, Row, Col, Button, Form, Container } from 'react-bootstrap';
-import { Encabezado } from 'eco-unp/ui';
+import { Row, Col, Button, Form, Container, Card } from 'react-bootstrap';
+import { Encabezado, CardForm } from 'eco-unp/ui';
 
 interface BusquedaProps {
   onSearch: (type: string, value: string) => void;
@@ -66,7 +66,7 @@ const Busqueda: React.FC<BusquedaProps> = ({ onSearch }) => {
             </Col>
           </Row>
           <Row>
-            <Col className="d-flex justify-content-end">
+            <Col className="d-flex justify-content-center">
               <Button variant="primary" onClick={handleSearch} className="btn-sm w-25">
                 Buscar
               </Button>
