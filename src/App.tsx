@@ -7,13 +7,13 @@ function App() {
     
 
     {/* Tab para revision casos analista */}
-    <TabVentana eventKey="Administracion" title="Administracion">
+    <TabVentana eventKey="Consultas" title="Consultas">
     {/* <ContactForm />   */}
     <h3>ventana para admin</h3>
     </TabVentana>
 
     {/* Tab para consulta linea vida */}
-    <TabVentana eventKey="LineaVida" title="Linea de Vida">
+    <TabVentana eventKey="PanelEstadistico" title="Panel Estadistico">
       <p>mostrar info linea de vida</p>
       
       {/* <ContactForm /> */}
