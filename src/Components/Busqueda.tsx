@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Card, Row, Col, Button, Form, Container } from 'react-bootstrap';
-import Encabezado from './Encabezado'; // Asegúrate de que la ruta sea correcta
+import Encabezado from './Encabezado';
 
 interface BusquedaProps {
   onSearch: (type: string, value: string) => void;
@@ -71,7 +71,7 @@ const Busqueda: React.FC<BusquedaProps> = ({ onSearch }) => {
               <Button 
                 onClick={handleSearch} 
                 className="btn-sm w-100" 
-                style={{ backgroundColor: '#D13C47', borderColor: '#D13C47', height: '38px', marginTop: '15px'}}
+                style={{ backgroundColor: '#D13C47', borderColor: '#D13C47', height: '36px', marginTop: '15px'}}
               >
                 Buscar
               </Button>
