@@ -7,8 +7,8 @@ interface BusquedaProps {
 }
 
 const Busqueda: React.FC<BusquedaProps> = ({ onSearch }) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [searchType, setSearchType] = useState('cedula'); // Valor predeterminado "cedula"
+  const [searchTerm, setSearchTerm] = useState<string>(''); // Tipo string
+  const [searchType, setSearchType] = useState<string>('cedula'); // Tipo string
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
