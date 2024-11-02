@@ -14,21 +14,21 @@ interface Dato {
 }
 
 const columnas = [
-  { key: 'serial', label: 'Serial' },
-  { key: 'cedulaAnonima', label: 'Cédula' },
+  { key: 'serial', label: 'Id' },
+  { key: 'cedulaAnonima', label: 'Nuip' },
   { key: 'departamento', label: 'Departamento' },
-  { key: 'ciudad', label: 'Ciudad' },
-  { key: 'nivel_riesgo', label: 'Nivel de Riesgo', hasModal: true },
-  { key: 'telefonoAnonimo', label: 'Celular', hasModal: true },
+  { key: 'ciudad', label: 'Municipio / Ciudad' },
+  { key: 'nivel_riesgo', label: 'Nivel de riesgo'},
+  { key: 'telefonoAnonimo', label: 'Teléfono o celular'},
 ];
 
 const obtenerDatos = async (queryType = '', queryValue = '') => {
   try {
     // Construye la URL de la API con los parámetros de búsqueda
     const url = queryValue
-    ? `https://formulariopruebas.unp.gov.co/api-django/lineavida/?${queryType}=${queryValue}`
-    : 'https://formulariopruebas.unp.gov.co/api-django/lineavida/';
-  
+      ? `https://formulariopruebas.unp.gov.co/api-django/lineavida/?${queryType}=${queryValue}`
+      : 'https://formulariopruebas.unp.gov.co/api-django/lineavida/';
+
 
     console.log("URL de búsqueda:", url); // Verifica la URL de búsqueda en la consola
 
@@ -46,11 +46,12 @@ const obtenerDatos = async (queryType = '', queryValue = '') => {
 };
 
 function App() {
+
   const [filteredData, setFilteredData] = useState<Dato[]>([]);
-  
+
   const handleSearch = async (type: string, value: string) => {
     // Configuración de los parámetros para la API
-    const queryType = type === 'cedula' ? 'cedula' : 'celular';
+    const queryType = type === 'cedula' ? 'cedula' : 'telefono_contacto';
     const result = await obtenerDatos(queryType, value);
 
     if (result.length > 0) {
@@ -58,13 +59,18 @@ function App() {
     } else {
       alert("No se encontraron resultados.");
     }
-  };  
+  };
 
   return (
     <VentanaUsuario>
-      <TabVentana eventKey="Consultas" title="Consultas">
-      <Busqueda onSearch={handleSearch} />
+      <TabVentana eventKey="Consulta" title="Panel de consulta">
+        <Busqueda onSearch={handleSearch} />
         <TablaConBuscador columns={columnas} data={filteredData} />
+      </TabVentana>
+      <TabVentana eventKey='Dashboard' title='Panel estadístico'>
+        <div>
+
+        </div>
       </TabVentana>
     </VentanaUsuario>
   );

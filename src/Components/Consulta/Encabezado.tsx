@@ -5,18 +5,19 @@ interface EncabezadoProps {
 }
 
 const titleStyle = {
-  borderLeft: "10px solid",
+  borderLeft: "8px solid",
   borderLeftColor: "#d13c47",
-  height: "90px",
+  height: "65px",
   marginBottom: "20px",
   display: "flex",
   alignItems: "center",
+  marginLeft: '0px'
 };
 
 const logoStyle = {
-  height: "80px",
-  marginLeft: "20px",
-  marginRight: "25px",
+  height: "60px",
+  marginLeft: "12px",
+  marginRight: "15px",
   alignSelf: "center",
 };
 
@@ -26,7 +27,7 @@ const Encabezado: React.FC<EncabezadoProps> = ({ dependencia }) => {
       <div
         style={{
           display: "flex",
-          justifyContent: "start",
+          justifyContent: "flex-start",
           alignItems: "center",
         }}
       >
@@ -38,12 +39,12 @@ const Encabezado: React.FC<EncabezadoProps> = ({ dependencia }) => {
             justifyContent: "start",
           }}
         >
-          <h3 style={{ margin: "0px 0px 7px 0px", fontWeight: "700" }}>
+          <h4 style={{ margin: "0px 0px 4px 0px", fontWeight: "700" }}>
             Unidad Nacional de Protección
-          </h3>
-          <h5 style={{ margin: "0px 0px 7px 0px", color: "#6b6b6b" }}>
+          </h4>
+          <h6 style={{ margin: "0px 0px 4px 0px", color: "#6b6b6b" }}>
             {dependencia}
-          </h5>
+          </h6>
         </div>
       </div>
     </div>

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Table } from "react-bootstrap";
-import "../../Styles/TablaConBuscador.css"; 
 
 interface Column {
   key: string;
@@ -18,7 +17,7 @@ const TablaConBuscador: React.FC<TablaConBuscadorProps> = ({ columns, data }) =>
   // Filtra los datos en base al término de búsqueda
 
   return (
-    <div className="tabla-con-buscador-container">
+    <div className="mx-3 my-4">
       {/* Contenedor del buscador */}
       <div className="buscador-container">
              
@@ -39,9 +38,9 @@ const TablaConBuscador: React.FC<TablaConBuscadorProps> = ({ columns, data }) =>
             </tr>
           ))}
           {data.length === 0 && (
-            <tr>
+            <tr style={{height: '50px'}}>
               <td colSpan={columns.length} className="text-center">
-                No se encontraron resultados
+                Por favor defina e ingrese un criterio de búsqueda
               </td>
             </tr>
           )}

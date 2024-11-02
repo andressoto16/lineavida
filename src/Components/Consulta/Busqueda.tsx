@@ -7,6 +7,7 @@ interface BusquedaProps {
 }
 
 const Busqueda: React.FC<BusquedaProps> = ({ onSearch }) => {
+
   const [searchTerm, setSearchTerm] = useState<string>(''); // Tipo string
   const [searchType, setSearchType] = useState<string>('cedula'); // Tipo string
 
@@ -29,28 +30,25 @@ const Busqueda: React.FC<BusquedaProps> = ({ onSearch }) => {
   return (
     <>
       {/* Encabezado */}
-      <Container className="mt-3">
-        <Row className="left">
-          <Col xs={12} md={12} lg={11} xl={9}>
-            <Encabezado dependencia="Linea Vida" />
-          </Col>
-        </Row>
-      </Container>
+
+      <div className='mt-4 mb-3 mx-3'>
+        <Encabezado dependencia="Línea Vida 103 / Beneficiarios SESP" />
+      </div>
 
       {/* Tarjeta de Búsqueda */}
-      <Card className="border-0 rounded-3 shadow mt-4">
-        <Card.Header style={{ backgroundColor: '#D13C47' }} className="text-center text-light rounded-top">
-          <h4>Consulta por número de Celular o Cédula</h4>
+      <Card className="border-0 rounded-3 shadow mt-4 mx-3">
+        <Card.Header style={{ backgroundColor: '#303D50' }} className="text-center text-light rounded-top d-flex aling-items-center justify-content-center">
+          <h5 style={{margin: '0px'}} className='py-1'>Generar consulta</h5>
         </Card.Header>
         <Card.Body>
-          <Row className="align-items-center">
+          <Row className="align-items-center mt-3 mb-3 px-2">
             {/* Selección de tipo de búsqueda */}
-            <Col md={4}>
+            <Col md={5}>
               <Form.Group controlId="searchType" className="mb-3">
                 <Form.Label>Seleccione el tipo de búsqueda</Form.Label>
                 <Form.Select value={searchType} onChange={handleTypeChange}>
-                  <option value="cedula">Cédula</option>
-                  <option value="celular">Celular</option>
+                  <option value="cedula">Número único de identificación personal (NUIP)</option>
+                  <option value="celular">Número de teléfono o celular</option>
                 </Form.Select>
               </Form.Group>
             </Col>
@@ -58,10 +56,10 @@ const Busqueda: React.FC<BusquedaProps> = ({ onSearch }) => {
             {/* Campo de entrada para número */}
             <Col md={5}>
               <Form.Group controlId="searchTerm" className="mb-3">
-                <Form.Label>Ingrese el número de {searchType === 'cedula' ? 'cédula' : 'celular'}</Form.Label>
+                <Form.Label>Ingrese el número de {searchType === 'cedula' ? 'identificación' : 'teléfono o celular'}</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder={searchType === 'cedula' ? 'Número de cédula' : 'Número de celular'}
+                  placeholder={searchType === 'cedula' ? 'Número' : 'Número'}
                   value={searchTerm}
                   onChange={handleInputChange}
                 />
@@ -69,11 +67,11 @@ const Busqueda: React.FC<BusquedaProps> = ({ onSearch }) => {
             </Col>
 
             {/* Botón de búsqueda */}
-            <Col md={3} className="d-flex justify-content-center">
+            <Col md={2} className="d-flex justify-content-center">
               <Button 
                 onClick={handleSearch} 
-                className="btn-sm w-75 mt-3" 
-                style={{ backgroundColor: '#D13C47', borderColor: '#D13C47' }}
+                className="btn-sm w-100" 
+                style={{ backgroundColor: '#D13C47', borderColor: '#D13C47', height: '38px', marginTop: '15px'}}
               >
                 Buscar
               </Button>
