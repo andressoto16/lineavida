@@ -32,7 +32,7 @@ const Busqueda: React.FC<BusquedaProps> = ({ onSearch }) => {
       {/* Encabezado */}
 
       <div className='mt-4 mb-3 mx-3'>
-        <Encabezado dependencia="Línea Vida 103 / Beneficiarios SESP" />
+        <Encabezado dependencia="Subdirección Especializada de Seguridad y Protección (SESP)" />
       </div>
 
       {/* Tarjeta de Búsqueda */}

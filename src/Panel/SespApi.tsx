@@ -3,6 +3,7 @@ import { TabVentana, VentanaUsuario } from 'eco-unp/ui';
 
 import TablaConBuscador from '../Components/TablaConBuscador';
 import Busqueda from '../Components/Busqueda';
+import SespApi from '../Components/GetRequest';
 
 interface Dato {
   serial: string;
@@ -65,16 +66,21 @@ const LineaVida: React.FC = () => {
 
   return (
     <VentanaUsuario>
-      <TabVentana eventKey="Consulta" title="Panel de consulta">
+      <TabVentana eventKey="Consulta" title="Consultas">
         <Busqueda onSearch={handleSearch} />
         <TablaConBuscador columns={columnas} data={filteredData} />
       </TabVentana>
 
-      <TabVentana eventKey='Dashboard' title='Panel estadístico'>
+      <TabVentana eventKey='API' title='API-SESP'>
+        <SespApi />
+      </TabVentana>
+
+      <TabVentana eventKey='Dashboard' title='Estadísticas'>
         <div className='d-flex justify-content-center align-items-center' style={{height: '90vh'}}>
           <p style={{margin: '0px', color: 'darkgrey', fontSize: '2rem', fontWeight: '600'}}>Próximamente</p>
         </div>
       </TabVentana>
+      
     </VentanaUsuario>
   );
 }
