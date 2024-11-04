@@ -66,7 +66,8 @@ const LineaVida: React.FC = () => {
 
   return (
     <VentanaUsuario>
-      <TabVentana eventKey="Consulta" title="Consultas">
+
+      <TabVentana eventKey="Consulta" title="Consultar">
         <Busqueda onSearch={handleSearch} />
         <TablaConBuscador columns={columnas} data={filteredData} />
       </TabVentana>

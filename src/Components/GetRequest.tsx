@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import Encabezado from './Encabezado';
 import { Card, CardBody, CardHeader, Col, FormControl, FormSelect, Row, InputGroup } from 'react-bootstrap'
-import { FaComputerMouse, FaFileSignature, FaLink, FaCopy, FaFileCode } from "react-icons/fa6"
-import { FaSearch } from "react-icons/fa"
+import { FaComputerMouse, FaFileSignature, FaLink, FaCopy, FaFileCode, FaFilter } from "react-icons/fa6"
 import { toast } from 'react-toastify'
 
 const SespApi = () => {
@@ -23,7 +22,7 @@ const SespApi = () => {
         setQueryValue(e.target.value);
     };
 
-    const handleSearch = async () => {
+    const handleSearchApi = async () => {
         const url = `https://formulariopruebas.unp.gov.co/api-django/lineavida/?${queryType}=${queryValue}`;
         setApiUrl(url);
         setInputValue(url);
@@ -67,13 +66,13 @@ const SespApi = () => {
     return (
         <React.Fragment>
 
-            <Row className='mt-4 mb-2 ms-0'>
+            <Row className='mt-4 mb-2 mx-3'>
                 <Encabezado dependencia={'Subdirección Especializada de Seguridad y Protección'} />
             </Row>
 
-            <Row className='mb-4'>
+            <Row className='mb-4 mx-1'>
                 <Col xs={12} lg={8}>
-                    <p>
+                    <p style={{textAlign: 'justify'}}>
                         La API de la Subdirección Especializada de Seguridad y Protección (API-SESP) ha sido creada para proporcionar un acceso seguro
                         y confiable a la información de solicitantes, evaluados y beneficiarios. Esto se logra mediante la anonimización de datos
                         sensibles y personales, siguiendo las Políticas de Seguridad de la Información y Protección de Datos Personales de la Entidad.
@@ -83,8 +82,8 @@ const SespApi = () => {
                 </Col>
                 <Col xs={12} lg={4}>
                     <Card>
-                        <CardHeader style={{ backgroundColor: '#D13C47' }}>
-                            <p style={{ color: '#FFF', margin: '0px', fontWeight: '500' }}>API-SESP</p>
+                        <CardHeader style={{ backgroundColor: '#e25155' }}>
+                            <p style={{ color: '#FFF', margin: '0px', fontWeight: '500' }}>API-SESP (V-0.1)</p>
                         </CardHeader>
                         <CardBody>
                             <div className='d-flex'>
@@ -106,9 +105,9 @@ const SespApi = () => {
                 </Col>
             </Row>
 
-            <Row className='my-3'>
+            <Row className='my-3 mx-1'>
                 <Col xs={12} lg={12} className='d-flex mb-2'>
-                    <FaSearch style={{ fontSize: '1.4rem', marginTop: '2px', marginRight: '7px', color: '#5A5A58' }} />
+                    <FaFilter style={{ fontSize: '1.4rem', marginTop: '2px', marginRight: '7px', color: '#5A5A58' }} />
                     <h4 style={{ fontWeight: '600', color: '#5A5A58' }}>Uso (Consumption)</h4>
                 </Col>
                 <Col xs={12} lg={4} className='d-flex mb-3'>
@@ -127,11 +126,11 @@ const SespApi = () => {
                     />
                 </Col>
                 <Col xs={12} lg={1} style={{ paddingRight: '12px' }}>
-                    <button className='btn btn-secondary w-100' onClick={handleSearch}>GET</button>
+                    <button className='btn w-100' onClick={handleSearchApi} style={{backgroundColor:'#e25155', color:'#fff'}}>GET</button>
                 </Col>
             </Row>
 
-            <Row className='mt-4'>
+            <Row className='mt-4 mx-1'>
                 <Col xs={12} lg={12} className='d-flex mb-2'>
                     <FaLink style={{ fontSize: '1.4rem', marginTop: '2px', marginRight: '7px', color: '#5A5A58' }} />
                     <h4 style={{ fontWeight: '600', color: '#5A5A58' }}>Enlace (URL)</h4>
@@ -142,14 +141,14 @@ const SespApi = () => {
                             defaultValue={initialUrl}
                             value={inputValue}
                         />
-                        <InputGroup.Text onClick={handleCopy} style={{ backgroundColor: '#6C757D', cursor: 'pointer' }}>
+                        <InputGroup.Text onClick={handleCopy} style={{ backgroundColor: '#e25155', cursor: 'pointer' }}>
                             <FaCopy style={{ color: '#FFF' }} />
                         </InputGroup.Text>
                     </InputGroup>
                 </Col>
             </Row>
 
-            <Row className='mt-3'>
+            <Row className='mt-3 mx-1'>
                 <Col xs={12} lg={12} className='d-flex mb-2'>
                     <FaFileCode style={{ fontSize: '1.4rem', marginTop: '2px', marginRight: '7px', color: '#5A5A58' }} />
                     <h4 style={{ fontWeight: '600', color: '#5A5A58' }}>Recurso (JSON)</h4>

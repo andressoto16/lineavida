@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Card, Row, Col, Button, Form, Container } from 'react-bootstrap';
 import Encabezado from './Encabezado';
+import { toast } from 'react-toastify'
 
 interface BusquedaProps {
   onSearch: (type: string, value: string) => void;
@@ -23,7 +24,7 @@ const Busqueda: React.FC<BusquedaProps> = ({ onSearch }) => {
     if (searchTerm.trim()) {
       onSearch(searchType, searchTerm);
     } else {
-      alert('Por favor ingrese un número de Celular o Cédula');
+      toast.error('Por favor ingrese un número de cédula o celular');
     }
   };
 
@@ -31,14 +32,14 @@ const Busqueda: React.FC<BusquedaProps> = ({ onSearch }) => {
     <>
       {/* Encabezado */}
 
-      <div className='mt-4 mb-3 mx-3'>
-        <Encabezado dependencia="Subdirección Especializada de Seguridad y Protección (SESP)" />
-      </div>
+      <Row className='mt-4 mb-2 mx-3'>
+        <Encabezado dependencia={'Subdirección Especializada de Seguridad y Protección'} />
+      </Row>
 
       {/* Tarjeta de Búsqueda */}
       <Card className="border-0 rounded-3 shadow mt-4 mx-3">
-        <Card.Header style={{ backgroundColor: '#303D50' }} className="text-center text-light rounded-top d-flex aling-items-center justify-content-center">
-          <h5 style={{margin: '0px'}} className='py-1'>Generar consulta</h5>
+        <Card.Header style={{ backgroundColor: '#e25155' }} className="text-center text-light rounded-top d-flex aling-items-center justify-content-center">
+          <h5 style={{ margin: '0px' }} className='py-1'>Generar consulta</h5>
         </Card.Header>
         <Card.Body>
           <Row className="align-items-center mt-3 mb-3 px-2">
@@ -68,10 +69,10 @@ const Busqueda: React.FC<BusquedaProps> = ({ onSearch }) => {
 
             {/* Botón de búsqueda */}
             <Col md={2} className="d-flex justify-content-center">
-              <Button 
-                onClick={handleSearch} 
-                className="btn-sm w-100" 
-                style={{ backgroundColor: '#D13C47', borderColor: '#D13C47', height: '36px', marginTop: '15px'}}
+              <Button
+                onClick={handleSearch}
+                className="btn-sm w-100"
+                style={{ backgroundColor: '#e25155', borderColor: '#e25155', height: '36px', marginTop: '15px' }}
               >
                 Buscar
               </Button>
