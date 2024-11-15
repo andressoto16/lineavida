@@ -10,11 +10,11 @@ const App = () => {
   return (
     <Router>
         <Routes>
-          <Route path="/" element={<InicioSesion />} /> 
+          {/* <Route path="/" element={<InicioSesion />} />  */}
 
-          <Route element={<ProtectedRoote />}>
+          {/* <Route element={<ProtectedRoote />}> */}
             <Route path="sesp/gps/api-sesp" element={<LineaVida />} />
-          </Route>
+          {/* </Route> */}
           <Route path="sesp/gps/uso-api-sesp" element={<UsoApiSesp />} />
           <Route path="/sistema/pagina-no-permitida" element={<PaginaNoPermitida />} />
           <Route path="*" element={<PaginaNoEncontrada />} />

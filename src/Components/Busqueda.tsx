@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
-import { Card, Row, Col, Button, Form, Container } from 'react-bootstrap';
 import Encabezado from './Encabezado';
+
+import { Card, Row, Col, Button, Form, Container } from 'react-bootstrap';
 import { toast } from 'react-toastify'
+import { FaMagnifyingGlass } from "react-icons/fa6"
+
+import '../styles/Styles.css';
 
 interface BusquedaProps {
   onSearch: (type: string, value: string) => void;
@@ -24,7 +28,7 @@ const Busqueda: React.FC<BusquedaProps> = ({ onSearch }) => {
     if (searchTerm.trim()) {
       onSearch(searchType, searchTerm);
     } else {
-      toast.error('Por favor ingrese un número de cédula o celular');
+      toast.error('Por favor ingrese un número de cédula o celular.');
     }
   };
 
@@ -32,54 +36,53 @@ const Busqueda: React.FC<BusquedaProps> = ({ onSearch }) => {
     <>
       {/* Encabezado */}
 
-      <Row className='mt-4 mb-2 mx-3'>
+      {/* <Row className='mt-4 mb-2 mx-1'>
         <Encabezado dependencia={'Subdirección Especializada de Seguridad y Protección'} />
-      </Row>
+      </Row> */}
 
       {/* Tarjeta de Búsqueda */}
-      <Card className="border-0 rounded-3 shadow mt-4 mx-3">
-        <Card.Header style={{ backgroundColor: '#e25155' }} className="text-center text-light rounded-top d-flex aling-items-center justify-content-center">
-          <h5 style={{ margin: '0px' }} className='py-1'>Generar consulta</h5>
-        </Card.Header>
-        <Card.Body>
-          <Row className="align-items-center mt-3 mb-3 px-2">
-            {/* Selección de tipo de búsqueda */}
-            <Col md={5}>
-              <Form.Group controlId="searchType" className="mb-3">
-                <Form.Label>Seleccione el tipo de búsqueda</Form.Label>
-                <Form.Select value={searchType} onChange={handleTypeChange}>
-                  <option value="cedula">Número único de identificación personal (NUIP)</option>
-                  <option value="celular">Número de teléfono o celular</option>
-                </Form.Select>
-              </Form.Group>
-            </Col>
+      <Row className="align-items-center mt-4 mb-5 px-2">
 
-            {/* Campo de entrada para número */}
-            <Col md={5}>
-              <Form.Group controlId="searchTerm" className="mb-3">
-                <Form.Label>Ingrese el número de {searchType === 'cedula' ? 'identificación' : 'teléfono o celular'}</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder={searchType === 'cedula' ? 'Número' : 'Número'}
-                  value={searchTerm}
-                  onChange={handleInputChange}
-                />
-              </Form.Group>
-            </Col>
+        <Col xs={12} lg={12} className='d-flex mb-2'>
+          <FaMagnifyingGlass style={{ fontSize: '1.4rem', marginTop: '2px', marginRight: '1rem', color: '#5A5A58' }} />
+          <h4 style={{ fontWeight: '600', color: '#5A5A58' }}>Generar</h4>
+        </Col>
 
-            {/* Botón de búsqueda */}
-            <Col md={2} className="d-flex justify-content-center">
-              <Button
-                onClick={handleSearch}
-                className="btn-sm w-100"
-                style={{ backgroundColor: '#e25155', borderColor: '#e25155', height: '36px', marginTop: '15px' }}
-              >
-                Buscar
-              </Button>
-            </Col>
-          </Row>
-        </Card.Body>
-      </Card>
+        {/* Selección de tipo de búsqueda */}
+        <Col md={5}>
+          <Form.Group controlId="searchType" className="mb-3">
+            <Form.Label>Seleccione el tipo de búsqueda</Form.Label>
+            <Form.Select value={searchType} onChange={handleTypeChange}>
+              <option value="cedula">Número único de identificación personal (NUIP)</option>
+              <option value="celular">Número de teléfono o celular</option>
+            </Form.Select>
+          </Form.Group>
+        </Col>
+
+        {/* Campo de entrada para número */}
+        <Col md={5}>
+          <Form.Group controlId="searchTerm" className="mb-3">
+            <Form.Label>Ingrese el número de {searchType === 'cedula' ? 'identificación' : 'teléfono o celular'}</Form.Label>
+            <Form.Control
+              type="number"
+              placeholder={searchType === 'cedula' ? 'Número' : 'Número'}
+              value={searchTerm}
+              onChange={handleInputChange}
+            />
+          </Form.Group>
+        </Col>
+
+        {/* Botón de búsqueda */}
+        <Col md={2}>
+          <Button
+            onClick={handleSearch}
+            className="btn-sm btn-custom w-100"
+            style={{ height: '36px', marginTop: '15px' }}
+          >
+            Buscar
+          </Button>
+        </Col>
+      </Row>
     </>
   );
 };

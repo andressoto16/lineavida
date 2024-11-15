@@ -81,8 +81,8 @@ const SespApi = () => {
                     </p>
                 </Col>
                 <Col xs={12} lg={4}>
-                    <Card>
-                        <CardHeader style={{ backgroundColor: '#e25155' }}>
+                    <Card className='rounded-3'>
+                        <CardHeader style={{ backgroundColor: '#3c4f6f' }}>
                             <p style={{ color: '#FFF', margin: '0px', fontWeight: '500' }}>API-SESP (V-0.1)</p>
                         </CardHeader>
                         <CardBody>
@@ -107,7 +107,7 @@ const SespApi = () => {
 
             <Row className='my-3 mx-1'>
                 <Col xs={12} lg={12} className='d-flex mb-2'>
-                    <FaFilter style={{ fontSize: '1.4rem', marginTop: '2px', marginRight: '7px', color: '#5A5A58' }} />
+                    <FaFilter style={{ fontSize: '1.4rem', marginTop: '2px', marginRight: '1rem', color: '#5A5A58' }} />
                     <h4 style={{ fontWeight: '600', color: '#5A5A58' }}>Uso (Consumption)</h4>
                 </Col>
                 <Col xs={12} lg={4} className='d-flex mb-3'>
@@ -126,13 +126,13 @@ const SespApi = () => {
                     />
                 </Col>
                 <Col xs={12} lg={1} style={{ paddingRight: '12px' }}>
-                    <button className='btn w-100' onClick={handleSearchApi} style={{backgroundColor:'#e25155', color:'#fff'}}>GET</button>
+                    <button className='btn btn-custom w-100' onClick={handleSearchApi}>GET</button>
                 </Col>
             </Row>
 
             <Row className='mt-4 mx-1'>
                 <Col xs={12} lg={12} className='d-flex mb-2'>
-                    <FaLink style={{ fontSize: '1.4rem', marginTop: '2px', marginRight: '7px', color: '#5A5A58' }} />
+                    <FaLink style={{ fontSize: '1.4rem', marginTop: '2px', marginRight: '1rem', color: '#5A5A58' }} />
                     <h4 style={{ fontWeight: '600', color: '#5A5A58' }}>Enlace (URL)</h4>
                 </Col>
                 <Col xs={12} lg={8}>
@@ -141,7 +141,7 @@ const SespApi = () => {
                             defaultValue={initialUrl}
                             value={inputValue}
                         />
-                        <InputGroup.Text onClick={handleCopy} style={{ backgroundColor: '#e25155', cursor: 'pointer' }}>
+                        <InputGroup.Text onClick={handleCopy} style={{ cursor: 'pointer' }} className='btn-custom'>
                             <FaCopy style={{ color: '#FFF' }} />
                         </InputGroup.Text>
                     </InputGroup>
@@ -150,13 +150,13 @@ const SespApi = () => {
 
             <Row className='mt-3 mx-1'>
                 <Col xs={12} lg={12} className='d-flex mb-2'>
-                    <FaFileCode style={{ fontSize: '1.4rem', marginTop: '2px', marginRight: '7px', color: '#5A5A58' }} />
+                    <FaFileCode style={{ fontSize: '1.4rem', marginTop: '2px', marginRight: '1rem', color: '#5A5A58' }} />
                     <h4 style={{ fontWeight: '600', color: '#5A5A58' }}>Recurso (JSON)</h4>
                 </Col>
                 <Col xs={12} lg={8}>
                     <Card>
                         <CardBody>
-                            <pre>
+                            <pre className='m-0'>
                                 {result
                                     ? JSON.stringify(result, null, 2)
                                     : JSON.stringify(exampleResult, null, 2)

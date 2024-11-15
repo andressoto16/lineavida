@@ -1,0 +1,47 @@
+/* Ocultar flechas input type number */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.btn-custom {
+    background-color: #707a8d !important;
+    border-color: #758094 !important;
+    color: #ffffff !important;
+}
+
+.btn-custom:hover {
+    background-color: #4d5461 !important;
+    border-color: #596479 !important;
+    color: #ffffff !important;
+}
+
+/* .btn-custom {
+    background-color: #e25155 !important;
+    border-color: #e25155 !important;
+    color: #ffffff !important;
+}
+
+.btn-custom:hover {
+    background-color: #c74246 !important;
+    border-color: #c74246 !important;
+    color: #ffffff !important;
+} */
+
+/* .btn-custom {
+    background-color: #335581 !important;
+    border-color: #3f77b8 !important;
+    color: #ffffff !important;
+}
+
+.btn-custom:hover {
+    background-color: #2763a7 !important;
+    border-color: #3f77b8 !important;
+    color: #ffffff !important;
+} */

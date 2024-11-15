@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Container } from 'react-bootstrap';
+import { Row, Col, Container, Card, CardBody } from 'react-bootstrap';
 import Encabezado from './Encabezado';
 import { VentanaLienzo } from 'eco-unp/ui';
 
@@ -32,7 +32,7 @@ const UsoApiSesp: React.FC = () => {
                         consultar y filtrar datos por número de cédula u otros criterios de búsqueda, ofreciendo así una herramienta
                         eficiente para la gestión de la información y los datos.
                     </p>
-                    <h3>Endpoints disponibles</h3>
+                    <h3 className='mt-5'>Endpoints disponibles</h3>
                     <p className='mt-3'>1. Consulta por Número único de identificación personal (Nuip)</p>
                     <p className='mx-3'>
                         <b>• Endpoint: </b>
@@ -67,10 +67,14 @@ const UsoApiSesp: React.FC = () => {
                         <b>• Ejemplo de URL: </b>
                         <code style={{ color: 'black', fontSize: '0.9rem', backgroundColor: 'lightgray' }}>https://formulariopruebas.unp.gov.co/api-django/lineavida/?telefono_contacto=3013010000</code>
                     </p>
-                    <h3>Respuesta de la API</h3>
+                    <h3 className='mt-5'>Respuesta de la API</h3>
                     <p>La respuesta de la API estará en formato JSON e incluirá los siguientes campos:</p>
-                    <pre>{JSON.stringify(data, null, 2)}</pre>
-                    <h3>Contacto</h3>
+                    <Card className='mb-3'>
+                        <CardBody>
+                            <pre className='m-0'>{JSON.stringify(data, null, 2)}</pre>
+                        </CardBody>
+                    </Card>
+                    <h3 className='mt-5'>Contacto</h3>
                     <p>Para cualquier consulta adicional o asistencia técnica, por favor contacte al equipo de soporte técnico en ecosistema@unp.gov.co.</p>
                 </Col>
             </Row>
