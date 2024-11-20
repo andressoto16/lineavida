@@ -3,6 +3,7 @@ import { InicioSesion, PaginaNoEncontrada, PaginaNoPermitida } from "eco-unp/ui"
 import LineaVida from "./Panel/SespApi";
 import { ProtectedRoute, UserRoute } from "eco-unp/utils";
 import UsoApiSesp from "./Components/usoApiSesp";
+import ApiPonal from "./Panel/ApiPonal";
  
 const App = () => {
  
@@ -10,6 +11,7 @@ const App = () => {
   return (
     <Router>
         <Routes>
+          <Route path="api-policia" element={<ApiPonal />} />
 
           <Route element={<ProtectedRoute />} >
             <Route path="sesp/gps/api" element={<LineaVida />} />
