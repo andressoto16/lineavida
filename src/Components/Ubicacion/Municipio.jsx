@@ -16,7 +16,8 @@ const Municipio = ({ idDepartamento, onChange, municipioRef }) => {
      
     const obtenerMunicipio = async () => {
       try {
-        const url = `https://ecosistemapruebas.unp.gov.co/api-eiunp/sistema/municipio/?departamento=${idDepartamento}`;
+        const urlMunicipio = process.env.REACT_APP_URL + 'sistema/municipio/?departamento=';
+        const url = `${urlMunicipio}${idDepartamento}`;
         const response = await fetch(url);
         if (response.ok) {
           const data = await response.json();

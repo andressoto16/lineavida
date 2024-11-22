@@ -14,7 +14,8 @@ const Departamento = ({ idPais, onChange, departamentoRef })  => {
 
     const obtenerDepartamentos = async () => {
       try {
-        const url = `https://ecosistemapruebas.unp.gov.co/api-eiunp/sistema/departamento/?pais=${idPais}`;
+        const urlDepartamento = process.env.REACT_APP_URL + 'sistema/departamento/?pais=';
+        const url =  `${urlDepartamento}${idPais}`;
         const response = await fetch(url);
         if (response.ok) {
           const data = await response.json();

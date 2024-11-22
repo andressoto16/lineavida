@@ -10,7 +10,7 @@ const Pais = ({ idPaisUbicacion, onChange, paisRef }) => {
   useEffect(() => {
     const obtenerPaises = async () => {
       try {
-        const response = await fetch('https://ecosistemapruebas.unp.gov.co/api-eiunp/sistema/pais/');
+        const response = await fetch(process.env.REACT_APP_URL + 'sistema/pais/');
         if (response.ok) {
           const data = await response.json();
           if (idPaisUbicacion) {
