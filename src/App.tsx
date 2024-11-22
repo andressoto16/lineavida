@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { InicioSesion, PaginaNoEncontrada, PaginaNoPermitida } from "eco-unp/ui";
+import { PaginaNoEncontrada, PaginaNoPermitida } from "eco-unp/ui";
 import LineaVida from "./Panel/SespApi";
 import { ProtectedRoute, UserRoute } from "eco-unp/utils";
 import UsoApiSesp from "./Components/usoApiSesp";
