@@ -42,7 +42,7 @@ const Pais = ({ idPaisUbicacion, onChange, paisRef }) => {
     <FormGroup className="mb-3">
       <FormLabel>País <span className="text-danger">*</span></FormLabel>
       <FormSelect ref={paisRef} value={paisSeleccionado} onChange={handlePaisChange}>
-        <option value="0" disabled>Seleccione...</option>
+        <option value="0" disabled >Seleccione...</option>
         {paises.map((pais) => (
           <option key={pais.id_pais} value={pais.id_pais}>
             {pais.nombre_pais}

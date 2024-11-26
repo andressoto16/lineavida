@@ -1,7 +1,7 @@
 import { CardForm, SubtituloForm } from 'eco-unp/ui';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Form, InputGroup, Col, Row, Button } from 'react-bootstrap';
-import { FaPlusCircle, FaUser } from 'react-icons/fa';
+import { FaPlusCircle, FaUser, FaSearch } from 'react-icons/fa';
 import { FaTrash } from 'react-icons/fa6';
 import { Departamento } from "./Ubicacion/Departamento";
 import { Municipio } from "./Ubicacion/Municipio";
@@ -9,6 +9,11 @@ import { Pais } from "./Ubicacion/Pais";
 import { toast } from 'react-toastify';
 
 const FormPonal: React.FC = () => {
+    const paisSelectRef = useRef<HTMLSelectElement>(null);
+    const departamentoSelectRef = useRef<HTMLSelectElement>(null);
+    const municipioSelectRef = useRef<HTMLSelectElement>(null);
+
+    // Interfaz para Nombres, tipo de Identificación y Familiares
     interface Nombres {
         primerNombre: string;
         segundoNombre?: string;
@@ -16,64 +21,38 @@ const FormPonal: React.FC = () => {
         segundoApellido?: string;
     }
 
-    // Variables
-    const [idPaisUbicacion, setIdPaisUbicacion] = useState('');
-    const [idDepartamentoUbicacion, setIdDepartamentoUbicacion] = useState('0');
-    const [idMunicipioUbicacion, setIdMunicipioUbicacion] = useState('0');
-    const [beneficiario, setBeneficiario] = useState<Nombres>({ primerNombre: '', segundoNombre: '', primerApellido: '', segundoApellido: '' });
-    const [cedula, setCedula] = useState<string>('');
-    const [contactos, setContactos] = useState<string[]>(['']);
-    const [Resolucion, setResolucion] = useState<string>("");
-    const [tipoEsquema, setTipoEsquema] = useState<string>('');
-    const [liderAsignado, setLiderAsignado] = useState<Nombres>({ primerNombre: '', segundoNombre: '', primerApellido: '', segundoApellido: '' });
-    const [medidasExtensivasFamilia, setMedidasExtensivasFamilia] = useState<string>('');
-    const [placas, setPlacas] = useState<string[]>(['']);
-    const [enlacePonal, setEnlacePonal] = useState<string>('');
-    // Variable para validar campos requeridos
-    const [validarDatos, setValidarDatos] = useState<boolean>(false);
-
-    interface ComposicionFamiliar {
+    interface Familiar {
         nombres: Nombres;
         parentesco: string;
     }
-    const [familiares, setFamiliares] = useState<ComposicionFamiliar[]>([]);
 
-    const handleFamiliarChange = (index: number, field: string, value: string) => {
-        const newFamiliares = [...familiares];
-        newFamiliares[index] = {
-            ...newFamiliares[index],
-            [field]: value
-        };
-        setFamiliares(newFamiliares);
-    };
+    interface TipoIdentificacion {
+        id_tidentificacion: number;
+        nombre_tidentificacion: string
+    }
 
-    const handleAgregarFamiliar = () => {
-        setFamiliares([
-            ...familiares,
-            { nombres: { primerNombre: '', primerApellido: '' }, parentesco: '' }
-        ]);
-    };
+    // Variables
+    const [beneficiario, setBeneficiario] = useState<Nombres>({ primerNombre: '', segundoNombre: '', primerApellido: '', segundoApellido: '' });
+    const [tipoIdentificacion, setTipoIdentificacion] = useState<TipoIdentificacion[]>([]);
+    const [tipoSeleccionado, setTipoSeleccionado] = useState("");
+    const [numeroIdentificacion, setNumeroIdentificacion] = useState("");
+    const [fechaExpedicion, setFechaExpedicion] = useState("");
+    const [idPaisUbicacion, setIdPaisUbicacion] = useState('0');
+    const [idDepartamentoUbicacion, setIdDepartamentoUbicacion] = useState('0');
+    const [idMunicipioUbicacion, setIdMunicipioUbicacion] = useState('0');
+    const [tipoEsquema, setTipoEsquema] = useState<string>('individual');
+    const [medidasExtensivas, setMedidasExtensivas] = useState<string>('');
+    const [correoElectronico, setCorreoElectronico] = useState<string>('');
+    const [telefonos, setTelefonos] = useState<string[]>(['']);
+    const [placas, setPlacas] = useState<string[]>(['']);
+    const [familiares, setFamiliares] = useState<Familiar[]>([]);
+    const [liderAsignado, setLiderAsignado] = useState<Nombres>({ primerNombre: '', segundoNombre: '', primerApellido: '', segundoApellido: '' });
+    const [enlacePonal, setEnlacePonal] = useState<string>('');
+    const [resolucion, setResolucion] = useState<string>('');
+    // Variable para validar campos requeridos
+    const [validarDatos, setValidarDatos] = useState<boolean>(false);
 
-    const handleRemoverFamiliar = (index: number) => {
-        const newFamiliares = familiares.filter((_, i) => i !== index);
-        setFamiliares(newFamiliares);
-    };
-
-    const limpiarFormulario = () => {
-        setIdPaisUbicacion('1');
-        setIdDepartamentoUbicacion('');
-        setIdMunicipioUbicacion('');
-        //setBeneficiario();
-        setCedula('');
-        setContactos(['']);
-        setResolucion('');
-        setTipoEsquema('');
-        //setNombreLiderAsignado(['']);
-        setPlacas(['']);
-        setEnlacePonal('');
-        //setFamiliares(['']);
-    };
-
+    // Handle Beneficiario
     const handleBeneficiarioChange = (field: keyof Nombres, value: string) => {
         setBeneficiario((prevState) => ({
             ...prevState,
@@ -81,13 +60,43 @@ const FormPonal: React.FC = () => {
         }));
     };
 
-    const handleChangeLider = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
-        setLiderAsignado(prevLider => ({
-            ...prevLider,
-            [name]: value
-        }));
+    // validación para el campo de número de identificación
+    const handleNumeroIdentificacionChange = (e: { target: { value: any; }; }) => {
+        const value = e.target.value;
+        if (tipoSeleccionado === "1" || tipoSeleccionado === "2") {
+            if (/^\d{0,10}$/.test(value)) {
+                setNumeroIdentificacion(value);
+            }
+        } if (tipoSeleccionado === "4") {
+            if (/^[A-Z0-9]{0,10}$/.test(value)) {
+                setNumeroIdentificacion(value);
+            }
+        } else {
+            if (/^\d{0,10}$/.test(value)) {
+                setNumeroIdentificacion(value);
+            }
+        }
     };
+    // consulta al api para traer los diferentes tipos de identificacion
+    useEffect(() => {
+        const obtenerTipoIdentificacion = async () => {
+            try {
+                const url = process.env.REACT_APP_URL + 'sistema/tipoidentificacion/';
+                const response = await fetch(url);
+                if (response.ok) {
+                    const data = await response.json();
+                    setTipoIdentificacion(data);
+                } else {
+                    console.error('Hubo un error al obtener los datos de los tipos de identificación:', response.status);
+                }
+            } catch (error) {
+                console.error('Hubo un error al obtener los datos de los tipos de identificación:', error);
+            }
+        };
+
+        obtenerTipoIdentificacion();
+
+    }, []);
 
     /* Handle Ubicación */
     const handlePaisChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
@@ -95,35 +104,31 @@ const FormPonal: React.FC = () => {
         setIdDepartamentoUbicacion('0');
         setIdMunicipioUbicacion('0');
     };
-
     const handleDepartamentoChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
         setIdDepartamentoUbicacion(event.target.value);
         setIdMunicipioUbicacion('');
     };
-
     const handleMunicipioGet = (event: { target: { value: React.SetStateAction<string>; }; }) => {
         setIdMunicipioUbicacion(event.target.value);
     };
 
-    /* Handle Contactos */
-    const handleAgregarContacto = () => {
-        if (contactos.length < 4) {
-            setContactos([...contactos, '']);
+    /* Handle Teléfonos */
+    const handleAgregarTelefono = () => {
+        if (telefonos.length < 4) {
+            setTelefonos([...telefonos, '']);
         } else {
-            alert('No puedes añadir más de 4 contactos.');
+            alert('No puedes añadir más de 4 teléfonos.');
         }
     };
-
-    const handleContactoChange = (index: number, value: string) => {
-        const newContactos = [...contactos];
-        newContactos[index] = value;
-        setContactos(newContactos);
+    const handleTelefonoChange = (index: number, value: string) => {
+        const newTelefonos = [...telefonos];
+        newTelefonos[index] = value;
+        setTelefonos(newTelefonos);
     };
-
-    const handleRemoverContacto = (index: number) => {
-        if (contactos.length > 1) {
-            const newContactos = contactos.filter((_, i) => i !== index);
-            setContactos(newContactos);
+    const handleRemoverTelefono = (index: number) => {
+        if (telefonos.length > 1) {
+            const newTelefonos = telefonos.filter((_, i) => i !== index);
+            setTelefonos(newTelefonos);
         }
     };
 
@@ -135,19 +140,101 @@ const FormPonal: React.FC = () => {
             alert('No puedes añadir más de 10 placas.');
         }
     };
-
     const handlePlacaChange = (index: number, value: string) => {
         const newPlacas = [...placas];
         newPlacas[index] = value;
         setPlacas(newPlacas);
     };
-
     const handleRemoverPlaca = (index: number) => {
         if (placas.length > 1) {
             const newPlacas = placas.filter((_, i) => i !== index);
             setPlacas(newPlacas);
         }
     };
+
+    // Handle Familiares
+    const handleFamiliarChange = (index: number, field: keyof Familiar | 'nombres.primerNombre' | 'nombres.segundoNombre' | 'nombres.primerApellido' | 'nombres.segundoApellido', value: string) => {
+        const newFamiliares = [...familiares];
+
+        // Si el campo es un campo anidado dentro de "nombres"
+        if (field.startsWith('nombres.')) {
+            const nombreField = field.split('.')[1] as keyof Nombres;
+            newFamiliares[index] = {
+                ...newFamiliares[index],
+                nombres: {
+                    ...newFamiliares[index].nombres,
+                    [nombreField]: value,
+                }
+            };
+        } else {
+            // Si el campo no es anidado
+            newFamiliares[index] = {
+                ...newFamiliares[index],
+                [field]: value,
+            };
+        }
+
+        setFamiliares(newFamiliares);
+    };
+
+    const handleAgregarFamiliar = () => {
+        setFamiliares([
+            ...familiares,
+            { nombres: { primerNombre: '', primerApellido: '' }, parentesco: '' }
+        ]);
+    };
+    const handleRemoverFamiliar = (index: number) => {
+        const newFamiliares = familiares.filter((_, i) => i !== index);
+        setFamiliares(newFamiliares);
+    };
+
+    // Handle Lider Asignado
+    const handleLiderChange = (field: keyof Nombres, value: string) => {
+        setLiderAsignado((prevState) => ({
+            ...prevState,
+            [field]: value,
+        }));
+    };
+
+    // Borrar datos del Formulario
+    const limpiarFormulario = () => {
+        setBeneficiario({
+            primerNombre: '',
+            segundoNombre: '',
+            primerApellido: '',
+            segundoApellido: ''
+        });
+        setTipoSeleccionado('');
+        setNumeroIdentificacion('');
+        setFechaExpedicion('');
+        setIdPaisUbicacion('1');
+        setIdDepartamentoUbicacion('');
+        setIdMunicipioUbicacion('');
+        setTipoEsquema('');
+        setMedidasExtensivas('');
+        setCorreoElectronico('');
+        setTelefonos(['']);
+        setPlacas(['']);
+        setFamiliares(familiares.map(familiar => ({
+            nombres: {
+                primerNombre: '',
+                segundoNombre: '',
+                primerApellido: '',
+                segundoApellido: '',
+            },
+            parentesco: ''
+        })));
+
+        setLiderAsignado({
+            primerNombre: '',
+            segundoNombre: '',
+            primerApellido: '',
+            segundoApellido: ''
+        });
+        setEnlacePonal('');
+        setResolucion('');
+    };
+
 
     /* Envio de datos */
     const guardarEnApi = async (event: React.FormEvent) => {
@@ -163,17 +250,22 @@ const FormPonal: React.FC = () => {
         setValidarDatos(true);
 
         const datosPonal = {
+            beneficiario,
+            tipoSeleccionado,
+            numeroIdentificacion,
+            fechaExpedicion,
             idPaisUbicacion,
             idDepartamentoUbicacion,
             idMunicipioUbicacion,
-            beneficiario,
-            cedula,
-            contactos,
-            Resolucion,
             tipoEsquema,
-            liderAsignado,
+            medidasExtensivas,
+            correoElectronico,
+            telefonos,
             placas,
-            enlacePonal
+            familiares,
+            liderAsignado,
+            enlacePonal,
+            resolucion
         }
 
         const response = await fetch(process.env.REACT_APP_URL + "sistema/guardarponal", {
@@ -193,6 +285,67 @@ const FormPonal: React.FC = () => {
     }
 
 
+
+    // Actualizar Datos
+    const handleSearch = async () => {
+        try {
+            /*
+            const urlDatos = process.env.REACT_APP_URL + 'sistema/datosPolicia/?identificacion=';
+            const url = `${urlDatos}${numeroIdentificacion}`;
+            const response = await fetch(url);*/
+            const response = await fetch('/data.json');
+
+            if (response.ok) {
+                if(numeroIdentificacion) {
+                    toast.success('Se han encontrado datos de la identificación: ' + numeroIdentificacion);
+                const data = await response.json();
+                // Actualizar los estados con los datos obtenidos
+                setBeneficiario(data.beneficiario);
+                setTipoSeleccionado(data.tipoSeleccionado);
+                setNumeroIdentificacion(data.numeroIdentificacion);
+                setFechaExpedicion(data.fechaExpedicion);
+
+                if (paisSelectRef.current) {
+                    paisSelectRef.current.value = data.idPaisUbicacion;
+                    paisSelectRef.current.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+                // Espera a que los departamentos se carguen 
+                await new Promise(resolve => setTimeout(resolve, 500));
+
+                if (departamentoSelectRef.current) {
+                    departamentoSelectRef.current.value = data.idDepartamentoUbicacion;
+                    departamentoSelectRef.current.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+
+                await new Promise(resolve => setTimeout(resolve, 500));
+
+                if (municipioSelectRef.current) {
+                    municipioSelectRef.current.value = data.idMunicipioUbicacion;
+                    municipioSelectRef.current.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+
+                setTipoEsquema(data.tipoEsquema);
+                setMedidasExtensivas(data.medidasExtensivas);
+                setCorreoElectronico(data.correoElectronico);
+                setTelefonos(data.telefonos);
+                setPlacas(data.placas);
+                setFamiliares(data.familiares);
+                setLiderAsignado(data.liderAsignado);
+                setEnlacePonal(data.enlacePonal);
+                setResolucion(data.resolucion);
+                }
+                else{
+                    toast.error('Ingrese un número de identificación.');
+                }
+            } else {
+                toast.error('Hubo un error al obtener los datos de la identificación: ' + numeroIdentificacion);
+                console.error('Hubo un error al obtener los datos de la identificación:', response.status);
+            }
+        } catch (error) {
+            toast.error('Hubo un error al obtener los datos de la identificación: ' + numeroIdentificacion);
+            console.error('Hubo un error al obtener los datos de la identificación:', error);
+        }
+    };
 
     return (
         <CardForm method={"POST"} canEdit={false} titulo={"FORMULARIO POLICIA NACIONAL"} validated={validarDatos}
@@ -230,6 +383,9 @@ const FormPonal: React.FC = () => {
                         </Form.Control.Feedback>
                     </InputGroup>
                 </Form.Group>
+
+            </Row>
+            <Row className="mb-3">
                 {/* Campo Primer Apellido */}
                 <Form.Group as={Col} xs={12} md={6} controlId="primerApellido">
                     <Form.Label>Primer Apellido <span style={{ color: 'red' }}>*</span></Form.Label>
@@ -260,49 +416,94 @@ const FormPonal: React.FC = () => {
                         </Form.Control.Feedback>
                     </InputGroup>
                 </Form.Group>
-                {/* NUIP */}
-                <Form.Group as={Col} xs={12} md={6} controlId="cedula">
-                    <Form.Label>NUIP <span style={{ color: 'red' }}>*</span></Form.Label>
-                    <InputGroup>
+            </Row>
+
+            <Row className="mb-3">
+                {/* Select para el Tipo de identificación */}
+                <Col md={4} xs={12}>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Tipo de identificación <span className="text-danger">*</span></Form.Label>
+                        <Form.Select
+                            value={tipoSeleccionado}
+                            onChange={(e) => { setTipoSeleccionado(e.target.value); }}
+                            isInvalid={validarDatos && !tipoSeleccionado}
+                        >
+                            <option value="0">Seleccione un tipo</option>
+                            {tipoIdentificacion.map((tidentificacion) => (
+                                <option key={tidentificacion.id_tidentificacion} value={tidentificacion.id_tidentificacion}>
+                                    {tidentificacion.nombre_tidentificacion}
+                                </option>
+                            ))}
+                        </Form.Select>
+                    </Form.Group>
+                </Col>
+
+                {/* Input para el Número de identificación */}
+                <Col md={4} xs={12}>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Nuip <span className="text-danger">*</span></Form.Label>
+                        <InputGroup>
+                            <Form.Control
+                                type="text"
+                                value={numeroIdentificacion}
+                                onChange={(e) => { handleNumeroIdentificacionChange(e) }}
+                                minLength={6}
+                                maxLength={15}
+                                isInvalid={validarDatos && !numeroIdentificacion}
+                                required
+                            />
+                            <Button
+                                variant="outline-secondary"
+                                onClick={handleSearch}>
+                                <FaSearch />
+                            </Button>
+                            <Form.Control.Feedback type="invalid">
+                                Este campo es obligatorio.
+                            </Form.Control.Feedback>
+                        </InputGroup>
+                    </Form.Group>
+                </Col>
+
+                {/* Input para la Fecha de expedición */}
+                <Col md={4} xs={12}>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Fecha de expedición <span className="text-danger">*</span></Form.Label>
                         <Form.Control
-                            type="number"
-                            value={cedula}
+                            type="date"
+                            value={fechaExpedicion}
+                            onChange={(e) => { setFechaExpedicion(e.target.value); }}
+                            max={new Date().toISOString().split("T")[0]}
+                            min={new Date('01-01-1911').toISOString().split("T")[0]}
                             required
-                            min="0"
-                            pattern="\d*"
-                            onChange={(e) => setCedula(e.target.value)}
-                            isInvalid={validarDatos && !cedula}
+                            isInvalid={validarDatos && !fechaExpedicion}
                         />
-                        <Form.Control.Feedback type="invalid">
-                            Este campo es obligatorio.
-                        </Form.Control.Feedback>
-                    </InputGroup>
-                </Form.Group>
+                    </Form.Group>
+                </Col>
             </Row>
             <Row className="justify-content-center align-items-center flex-wrap">
                 <Col xs={12} sm={6} md={3} lg={3}>
-                    <Pais paisRef={undefined} idPaisUbicacion={1} onChange={handlePaisChange} />
+                    <Pais paisRef={paisSelectRef} idPaisUbicacion={1} onChange={handlePaisChange} />
                 </Col>
                 <Col xs={12} sm={6} md={5} lg={5}>
-                    <Departamento departamentoRef={undefined} idPais={idPaisUbicacion} onChange={handleDepartamentoChange} />
+                    <Departamento departamentoRef={departamentoSelectRef} idPais={idPaisUbicacion} onChange={handleDepartamentoChange} />
                 </Col>
                 <Col xs={12} sm={6} md={4} lg={4}>
-                    <Municipio municipioRef={undefined} idDepartamento={idDepartamentoUbicacion} onChange={handleMunicipioGet} />
+                    <Municipio municipioRef={municipioSelectRef} idDepartamento={idDepartamentoUbicacion} onChange={handleMunicipioGet} />
                 </Col>
             </Row>
             <Row className="mb-3">
-                <Form.Group as={Col} xs={12} md={6} controlId="tipoEsquema">
+                <Form.Group as={Col} xs={12} md={6} className='mb-2 d-none' controlId="tipoEsquema">
                     <Form.Label>Tipo de esquema <span style={{ color: 'red' }}>*</span></Form.Label>
                     <InputGroup>
                         <Form.Select
                             as="select"
                             value={tipoEsquema}
-                            required
+                            disabled
                             onChange={(e) => setTipoEsquema(e.target.value)}
                             isInvalid={validarDatos && !tipoEsquema}
                         >
                             <option value="" disabled selected>Selecciona una Opción</option>
-                            <option value="individual">Individual</option>
+                            <option value="individual" >Individual</option>
                             <option value="colectivo">Colectivo</option>
                         </Form.Select>
                         <Form.Control.Feedback type="invalid">
@@ -310,15 +511,15 @@ const FormPonal: React.FC = () => {
                         </Form.Control.Feedback>
                     </InputGroup>
                 </Form.Group>
-                <Form.Group as={Col} xs={12} md={6} controlId="medidasExtensivasFamilia">
-                    <Form.Label>Medidas extensivas a la familia <span style={{ color: 'red' }}>*</span></Form.Label>
+                <Form.Group as={Col} xs={12} md={6} controlId="medidasExtensivas">
+                    <Form.Label>Medidas extensivas a <span style={{ color: 'red' }}>*</span></Form.Label>
                     <InputGroup>
                         <Form.Select
                             as="select"
-                            value={medidasExtensivasFamilia}
+                            value={medidasExtensivas}
                             required
-                            onChange={(e) => setMedidasExtensivasFamilia(e.target.value)}
-                            isInvalid={validarDatos && !medidasExtensivasFamilia}
+                            onChange={(e) => setMedidasExtensivas(e.target.value)}
+                            isInvalid={validarDatos && !medidasExtensivas}
                         >
                             <option value="" disabled selected>Selecciona una Opción</option>
                             <option value="FAMILIAR">Familiar</option>
@@ -341,18 +542,21 @@ const FormPonal: React.FC = () => {
                 </Form.Group>
             </Row>
             <Row className="mb-3">
-                {contactos.map((contacto, index) => (
-                    <Form.Group as={Col} xs={12} md={6} controlId={`contacto-${index}`} key={index}>
-                        <Form.Label>Contacto {index + 1}: </Form.Label>
+                {telefonos.map((telefono, index) => (
+                    <Form.Group as={Col} xs={12} md={6} className='mb-2' controlId={`telefono-${index}`} key={index}>
+                        <Form.Label>
+                            Teléfono {index + 1}:
+                            {index === 0 && <span style={{ color: 'red' }}>*</span>}
+                        </Form.Label>
                         <InputGroup>
                             <Form.Control
                                 type="number"
-                                value={contacto}
+                                value={telefono}
                                 min="0"
                                 pattern="\d*"
-                                onChange={(e) => handleContactoChange(index, e.target.value)}
+                                onChange={(e) => handleTelefonoChange(index, e.target.value)}
                                 required={index === 0}
-                                isInvalid={validarDatos && !contacto}
+                                isInvalid={validarDatos && !telefono}
                             />
                         </InputGroup>
                     </Form.Group>
@@ -360,20 +564,37 @@ const FormPonal: React.FC = () => {
             </Row>
 
             <Row className="mb-3">
-                <Button className='col-4 mx-auto' variant="secondary" onClick={handleAgregarContacto}>
-                    <FaPlusCircle /> Añadir Contacto
+                <Button className='col-4 mx-auto' variant="secondary" onClick={handleAgregarTelefono}>
+                    <FaPlusCircle /> Añadir Teléfono
                 </Button>
 
-                <Button variant="danger" onClick={() => handleRemoverContacto(contactos.length - 1)}
-                    disabled={contactos.length === 1} className='col-4 mx-auto'>
-                    <FaTrash /> Eliminar Último Contacto
+                <Button variant="danger" onClick={() => handleRemoverTelefono(telefonos.length - 1)}
+                    disabled={telefonos.length === 1} className='col-4 mx-auto'>
+                    <FaTrash /> Eliminar Último Teléfono
                 </Button>
             </Row>
 
             <Row className="mb-3">
+                {/* Correo Electrónico */}
+                <Form.Group as={Col} xs={12} md={6} controlId="correoElectronico">
+                    <Form.Label>Correo Electrónico</Form.Label>
+                    <InputGroup>
+                        <Form.Control
+                            type="email"
+                            value={correoElectronico}
+                            onChange={(e) => setCorreoElectronico(e.target.value)}
+                        />
+                    </InputGroup>
+                </Form.Group>
+            </Row>
+
+            <Row className="mb-3">
                 {placas.map((placa, index) => (
-                    <Form.Group as={Col} xs={12} md={6} controlId={`placa-${index}`} key={index}>
-                        <Form.Label>Placa {index + 1}: </Form.Label>
+                    <Form.Group as={Col} xs={12} md={6} className='mb-2' controlId={`placa-${index}`} key={index}>
+                        <Form.Label>
+                            Placa {index + 1}:
+                            {index === 0 && <span style={{ color: 'red' }}>*</span>}
+                        </Form.Label>
                         <InputGroup>
                             <Form.Control
                                 type="text"
@@ -403,51 +624,47 @@ const FormPonal: React.FC = () => {
                 <h4>Familiares</h4>
                 {familiares.map((familiar, index) => (
                     <Row key={index} className="mb-3">
-                        <h5>Familiar {index+1}</h5>
-                        <Col xs={12} md={4}>
+                        <h5>Familiar {index + 1}</h5>
+                        <Col xs={12} md={4} className='mb-3'>
                             <Form.Group controlId={`familiar-${index}-nombre`}>
                                 <Form.Label>Primer Nombre:</Form.Label>
                                 <Form.Control
                                     type="text"
                                     value={familiar.nombres.primerNombre}
                                     onChange={(e) => handleFamiliarChange(index, 'nombres.primerNombre', e.target.value)}
-                                    placeholder="Primer Nombre"
                                 />
                             </Form.Group>
                         </Col>
 
-                        <Col xs={12} md={4}>
+                        <Col xs={12} md={4} className='mb-3'>
                             <Form.Group controlId={`familiar-${index}-segundoNombre`}>
                                 <Form.Label>Segundo Nombre:</Form.Label>
                                 <Form.Control
                                     type="text"
                                     value={familiar.nombres.segundoNombre || ''}
                                     onChange={(e) => handleFamiliarChange(index, 'nombres.segundoNombre', e.target.value)}
-                                    placeholder="Segundo Nombre"
                                 />
                             </Form.Group>
                         </Col>
 
-                        <Col xs={12} md={4}>
+                        <Col xs={12} md={4} className='mb-3'>
                             <Form.Group controlId={`familiar-${index}-apellido`}>
                                 <Form.Label>Primer Apellido:</Form.Label>
                                 <Form.Control
                                     type="text"
                                     value={familiar.nombres.primerApellido}
                                     onChange={(e) => handleFamiliarChange(index, 'nombres.primerApellido', e.target.value)}
-                                    placeholder="Primer Apellido"
                                 />
                             </Form.Group>
                         </Col>
 
-                        <Col xs={12} md={4}>
+                        <Col xs={12} md={4} className='mb-3'>
                             <Form.Group controlId={`familiar-${index}-segundoApellido`}>
                                 <Form.Label>Segundo Apellido:</Form.Label>
                                 <Form.Control
                                     type="text"
                                     value={familiar.nombres.segundoApellido || ''}
                                     onChange={(e) => handleFamiliarChange(index, 'nombres.segundoApellido', e.target.value)}
-                                    placeholder="Segundo Apellido"
                                 />
                             </Form.Group>
                         </Col>
@@ -459,7 +676,6 @@ const FormPonal: React.FC = () => {
                                     type="text"
                                     value={familiar.parentesco}
                                     onChange={(e) => handleFamiliarChange(index, 'parentesco', e.target.value)}
-                                    placeholder="Parentesco"
                                 />
                             </Form.Group>
                         </Col>
@@ -475,7 +691,7 @@ const FormPonal: React.FC = () => {
                 <Button
                     variant="danger"
                     onClick={() => handleRemoverFamiliar(familiares.length - 1)}
-                    disabled={familiares.length === 1}
+                    disabled={familiares.length === 0}
                     className="col-4 mx-auto"
                 >
                     <FaTrash /> Eliminar Último Familiar
@@ -483,7 +699,7 @@ const FormPonal: React.FC = () => {
             </Row>
 
             <Row className="mb-3">
-                <h4>Lider de Asignación</h4>
+                <h4>Líder de Asignación</h4>
                 {/* Campo Primer Nombre */}
                 <Form.Group as={Col} xs={12} md={6} controlId="primerNombreLider">
                     <Form.Label>Primer Nombre <span style={{ color: 'red' }}>*</span></Form.Label>
@@ -492,8 +708,8 @@ const FormPonal: React.FC = () => {
                             type="text"
                             value={liderAsignado.primerNombre}
                             required
-                            onChange={handleChangeLider}
                             isInvalid={validarDatos && !liderAsignado.primerNombre}
+                            onChange={(e) => handleLiderChange('primerNombre', e.target.value)}
                         />
                         <Form.Control.Feedback type="invalid">
                             Este campo es obligatorio.
@@ -507,13 +723,15 @@ const FormPonal: React.FC = () => {
                         <Form.Control
                             type="text"
                             value={liderAsignado.segundoNombre}
-                            onChange={handleChangeLider}
+                            onChange={(e) => handleLiderChange('segundoNombre', e.target.value)}
                         />
                         <Form.Control.Feedback type="invalid">
                             Este campo es obligatorio.
                         </Form.Control.Feedback>
                     </InputGroup>
                 </Form.Group>
+            </Row>
+            <Row className="mb-3">
                 {/* Campo Primer Apellido */}
                 <Form.Group as={Col} xs={12} md={6} controlId="primerApellidoLider">
                     <Form.Label>Primer Apellido <span style={{ color: 'red' }}>*</span></Form.Label>
@@ -522,8 +740,8 @@ const FormPonal: React.FC = () => {
                             type="text"
                             value={liderAsignado.primerApellido}
                             required
-                            onChange={handleChangeLider}
                             isInvalid={validarDatos && !liderAsignado.primerApellido}
+                            onChange={(e) => handleLiderChange('primerApellido', e.target.value)}
                         />
                         <Form.Control.Feedback type="invalid">
                             Este campo es obligatorio.
@@ -537,8 +755,7 @@ const FormPonal: React.FC = () => {
                         <Form.Control
                             type="text"
                             value={liderAsignado.segundoApellido}
-                            onChange={handleChangeLider}
-
+                            onChange={(e) => handleLiderChange('segundoApellido', e.target.value)}
                         />
                         <Form.Control.Feedback type="invalid">
                             Este campo es obligatorio.
@@ -564,16 +781,16 @@ const FormPonal: React.FC = () => {
                     </InputGroup>
                 </Form.Group>
             </Row>
-            <Form.Group as={Col} xs={12} md={12} controlId="Resolucion">
+            <Form.Group as={Col} xs={12} md={12} controlId="resolucion">
                 <Form.Label>Resolución <span style={{ color: 'red' }}>*</span></Form.Label>
                 <InputGroup>
                     <Form.Control
                         as="textarea"
-                        value={Resolucion}
+                        value={resolucion}
                         required
                         onChange={(e) => setResolucion(e.target.value)}
                         maxLength={5000}
-                        isInvalid={validarDatos && !Resolucion}
+                        isInvalid={validarDatos && !resolucion}
                     />
                     <Form.Control.Feedback type="invalid">
                         Este campo es obligatorio.

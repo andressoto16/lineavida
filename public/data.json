@@ -1,0 +1,72 @@
+{
+    "beneficiario": {
+        "primerNombre": "Juan",
+        "segundoNombre": "Luis",
+        "primerApellido": "Montero",
+        "segundoApellido": "Dias"
+    },
+    "tipoSeleccionado": "2",
+    "numeroIdentificacion": "4323243424",
+    "fechaExpedicion": "2024-11-20",
+    "idPaisUbicacion": "1",
+    "idDepartamentoUbicacion": "47",
+    "idMunicipioUbicacion": "47570",
+    "tipoEsquema": "individual",
+    "medidasExtensivas": "FIRMANTE DE PAZ",
+    "correoElectronico": "abd.rinds@unp.gov.co",
+    "telefonos": [
+        "343243234",
+        "343243234",
+        "343243234",
+        "343243234"
+    ],
+    "placas": [
+        "564efe",
+        "564efe",
+        "564efe",
+        "564efe",
+        "564efe",
+        "564efe",
+        "564efe",
+        "564efe",
+        "564efe",
+        "564efe"
+    ],
+    "familiares": [
+        {
+            "nombres": {
+                "primerNombre": "eae",
+                "primerApellido": "wea",
+                "segundoNombre": "ewaawe",
+                "segundoApellido": "wawea"
+            },
+            "parentesco": "weawe"
+        },
+        {
+            "nombres": {
+                "primerNombre": "weaaw",
+                "primerApellido": "weaaw",
+                "segundoNombre": "weaaw",
+                "segundoApellido": "weaaw"
+            },
+            "parentesco": "weaaw"
+        },
+        {
+            "nombres": {
+                "primerNombre": "weaaw",
+                "primerApellido": "weaaw",
+                "segundoNombre": "weaaw",
+                "segundoApellido": "weaaw"
+            },
+            "parentesco": "weaaw"
+        }
+    ],
+    "liderAsignado": {
+        "primerNombre": "Carlos",
+        "segundoNombre": "we",
+        "primerApellido": "ewa",
+        "segundoApellido": "reeew"
+    },
+    "enlacePonal": "aergraegare",
+    "resolucion": "Resolucion awigferjoia"
+}

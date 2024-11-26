@@ -6,12 +6,11 @@ import FormPonal from '../Components/FormPonal';
 const ApiPonal: React.FC = () => {
   return (
     <VentanaUsuario>
-      <TabVentana eventKey='API' title='API-POLICIA'>
+      <TabVentana eventKey='APIPONAL' title='Api Policia'>
         <Container className='mt-4'>
           <FormPonal />
         </Container>
       </TabVentana>
-
     </VentanaUsuario>
   );
 }
