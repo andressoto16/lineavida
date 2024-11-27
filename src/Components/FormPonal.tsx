@@ -1,6 +1,6 @@
 import { CardForm, SubtituloForm } from 'eco-unp/ui';
 import React, { useState, useEffect, useRef } from 'react';
-import { Form, InputGroup, Col, Row, Button } from 'react-bootstrap';
+import { Form, InputGroup, Col, Row, Button, Spinner } from 'react-bootstrap';
 import { FaPlusCircle, FaUser, FaSearch } from 'react-icons/fa';
 import { FaTrash } from 'react-icons/fa6';
 import { Departamento } from "./Ubicacion/Departamento";
@@ -51,6 +51,8 @@ const FormPonal: React.FC = () => {
     const [resolucion, setResolucion] = useState<string>('');
     // Variable para validar campos requeridos
     const [validarDatos, setValidarDatos] = useState<boolean>(false);
+    // Variable para identificar si estan cargando paises, departamentos o municipios
+    const [cargando, setCargando] = useState(false);
 
     // Handle Beneficiario
     const handleBeneficiarioChange = (field: keyof Nombres, value: string) => {
@@ -121,8 +123,9 @@ const FormPonal: React.FC = () => {
         }
     };
     const handleTelefonoChange = (index: number, value: string) => {
+        const formattedValue = value.replace(/\D/g, '');
         const newTelefonos = [...telefonos];
-        newTelefonos[index] = value;
+        newTelefonos[index] = formattedValue;
         setTelefonos(newTelefonos);
     };
     const handleRemoverTelefono = (index: number) => {
@@ -284,20 +287,26 @@ const FormPonal: React.FC = () => {
         }
     }
 
-
-
     // Actualizar Datos
-    const handleSearch = async () => {
+    const handleSearch = async (tipoBusqueda: string, valorBuscar: string) => {
         try {
+            if (tipoBusqueda === 'identificación' && !valorBuscar) {
+                toast.error('Ingrese un número de identificación.');
+                return;
+            } else if (tipoBusqueda === 'placa' && !valorBuscar) {
+                toast.error('Ingrese una placa.');
+                return;
+            }
+
             /*
-            const urlDatos = process.env.REACT_APP_URL + 'sistema/datosPolicia/?identificacion=';
-            const url = `${urlDatos}${numeroIdentificacion}`;
-            const response = await fetch(url);*/
+                const url = `${process.env.REACT_APP_URL}sistema/datosPolicia/${tipoBusqueda}=${valorBuscar}`;
+                const response = await fetch(url);
+            */
             const response = await fetch('/data.json');
 
             if (response.ok) {
-                if(numeroIdentificacion) {
-                    toast.success('Se han encontrado datos de la identificación: ' + numeroIdentificacion);
+                setCargando(true);
+                toast.success(`Se han encontrado los datos de la ${tipoBusqueda}: ${valorBuscar}`);
                 const data = await response.json();
                 // Actualizar los estados con los datos obtenidos
                 setBeneficiario(data.beneficiario);
@@ -316,13 +325,16 @@ const FormPonal: React.FC = () => {
                     departamentoSelectRef.current.value = data.idDepartamentoUbicacion;
                     departamentoSelectRef.current.dispatchEvent(new Event('change', { bubbles: true }));
                 }
-
+                /* Bloquear pantalla hasta que cargen departamentos y municipios */
                 await new Promise(resolve => setTimeout(resolve, 500));
 
                 if (municipioSelectRef.current) {
                     municipioSelectRef.current.value = data.idMunicipioUbicacion;
                     municipioSelectRef.current.dispatchEvent(new Event('change', { bubbles: true }));
                 }
+                setIdPaisUbicacion(data.idPaisUbicacion);
+                setIdDepartamentoUbicacion(data.idDepartamentoUbicacion);
+                setIdMunicipioUbicacion(data.idMunicipioUbicacion);
 
                 setTipoEsquema(data.tipoEsquema);
                 setMedidasExtensivas(data.medidasExtensivas);
@@ -333,471 +345,501 @@ const FormPonal: React.FC = () => {
                 setLiderAsignado(data.liderAsignado);
                 setEnlacePonal(data.enlacePonal);
                 setResolucion(data.resolucion);
-                }
-                else{
-                    toast.error('Ingrese un número de identificación.');
-                }
+
+                setCargando(false);
             } else {
-                toast.error('Hubo un error al obtener los datos de la identificación: ' + numeroIdentificacion);
-                console.error('Hubo un error al obtener los datos de la identificación:', response.status);
+                toast.error('Hubo un error al obtener los datos: ' + numeroIdentificacion);
+                console.error('Hubo un error al obtener los datos:', response.status);
             }
         } catch (error) {
-            toast.error('Hubo un error al obtener los datos de la identificación: ' + numeroIdentificacion);
-            console.error('Hubo un error al obtener los datos de la identificación:', error);
+            toast.error('Hubo un error al obtener los datos: ' + numeroIdentificacion);
+            console.error('Hubo un error al obtener los datos:', error);
         }
     };
 
     return (
-        <CardForm method={"POST"} canEdit={false} titulo={"FORMULARIO POLICIA NACIONAL"} validated={validarDatos}
-            onSubmit={guardarEnApi} hasBody={true}>
-            <SubtituloForm subtitulo={"Datos del solicitante"} icon={FaUser}></SubtituloForm>
-            <Row className="mb-3">
-                {/* Campo Primer Nombre */}
-                <Form.Group as={Col} xs={12} md={6} controlId="beneficiario">
-                    <Form.Label>Primer Nombre <span style={{ color: 'red' }}>*</span></Form.Label>
-                    <InputGroup>
-                        <Form.Control
-                            type="text"
-                            value={beneficiario.primerNombre}
-                            required
-                            isInvalid={validarDatos && !beneficiario.primerApellido}
-                            onChange={(e) => handleBeneficiarioChange('primerNombre', e.target.value)}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            Este campo es obligatorio.
-                        </Form.Control.Feedback>
-                    </InputGroup>
-                </Form.Group>
-                {/* Campo Segundo Nombre */}
-                <Form.Group as={Col} xs={12} md={6} controlId="segundoNombre">
-                    <Form.Label>Segundo Nombre</Form.Label>
-                    <InputGroup>
-                        <Form.Control
-                            type="text"
-                            value={beneficiario.segundoNombre}
-                            onChange={(e) => handleBeneficiarioChange('segundoNombre', e.target.value)}
+        <>
+            {cargando && (
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        backgroundColor: 'rgba(255, 255, 255, 0.8',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        zIndex: 9999
+                    }}
+                >
+                    <Spinner animation="border" />
+                </div>
+            )}
 
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            Este campo es obligatorio.
-                        </Form.Control.Feedback>
-                    </InputGroup>
-                </Form.Group>
-
-            </Row>
-            <Row className="mb-3">
-                {/* Campo Primer Apellido */}
-                <Form.Group as={Col} xs={12} md={6} controlId="primerApellido">
-                    <Form.Label>Primer Apellido <span style={{ color: 'red' }}>*</span></Form.Label>
-                    <InputGroup>
-                        <Form.Control
-                            type="text"
-                            value={beneficiario.primerApellido}
-                            required
-                            isInvalid={validarDatos && !beneficiario.primerApellido}
-                            onChange={(e) => handleBeneficiarioChange('primerApellido', e.target.value)}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            Este campo es obligatorio.
-                        </Form.Control.Feedback>
-                    </InputGroup>
-                </Form.Group>
-                {/* Campo Segundo Apellido */}
-                <Form.Group as={Col} xs={12} md={6} controlId="segundoApellido">
-                    <Form.Label>Segundo Apellido</Form.Label>
-                    <InputGroup>
-                        <Form.Control
-                            type="text"
-                            value={beneficiario.segundoApellido}
-                            onChange={(e) => handleBeneficiarioChange('segundoApellido', e.target.value)}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            Este campo es obligatorio.
-                        </Form.Control.Feedback>
-                    </InputGroup>
-                </Form.Group>
-            </Row>
-
-            <Row className="mb-3">
-                {/* Select para el Tipo de identificación */}
-                <Col md={4} xs={12}>
-                    <Form.Group className="mb-3">
-                        <Form.Label>Tipo de identificación <span className="text-danger">*</span></Form.Label>
-                        <Form.Select
-                            value={tipoSeleccionado}
-                            onChange={(e) => { setTipoSeleccionado(e.target.value); }}
-                            isInvalid={validarDatos && !tipoSeleccionado}
-                        >
-                            <option value="0">Seleccione un tipo</option>
-                            {tipoIdentificacion.map((tidentificacion) => (
-                                <option key={tidentificacion.id_tidentificacion} value={tidentificacion.id_tidentificacion}>
-                                    {tidentificacion.nombre_tidentificacion}
-                                </option>
-                            ))}
-                        </Form.Select>
-                    </Form.Group>
-                </Col>
-
-                {/* Input para el Número de identificación */}
-                <Col md={4} xs={12}>
-                    <Form.Group className="mb-3">
-                        <Form.Label>Nuip <span className="text-danger">*</span></Form.Label>
+            <CardForm method={"POST"} canEdit={false} titulo={"FORMULARIO POLICIA NACIONAL"} validated={validarDatos}
+                onSubmit={guardarEnApi} hasBody={true}>
+                <SubtituloForm subtitulo={"Datos del solicitante"} icon={FaUser}></SubtituloForm>
+                <Row className="mb-3">
+                    {/* Campo Primer Nombre */}
+                    <Form.Group as={Col} xs={12} md={6} controlId="beneficiario">
+                        <Form.Label>Primer Nombre <span style={{ color: 'red' }}>*</span></Form.Label>
                         <InputGroup>
                             <Form.Control
                                 type="text"
-                                value={numeroIdentificacion}
-                                onChange={(e) => { handleNumeroIdentificacionChange(e) }}
-                                minLength={6}
-                                maxLength={15}
-                                isInvalid={validarDatos && !numeroIdentificacion}
+                                value={beneficiario.primerNombre}
                                 required
+                                isInvalid={validarDatos && !beneficiario.primerApellido}
+                                onChange={(e) => handleBeneficiarioChange('primerNombre', e.target.value)}
                             />
-                            <Button
-                                variant="outline-secondary"
-                                onClick={handleSearch}>
-                                <FaSearch />
-                            </Button>
                             <Form.Control.Feedback type="invalid">
                                 Este campo es obligatorio.
                             </Form.Control.Feedback>
                         </InputGroup>
                     </Form.Group>
-                </Col>
-
-                {/* Input para la Fecha de expedición */}
-                <Col md={4} xs={12}>
-                    <Form.Group className="mb-3">
-                        <Form.Label>Fecha de expedición <span className="text-danger">*</span></Form.Label>
-                        <Form.Control
-                            type="date"
-                            value={fechaExpedicion}
-                            onChange={(e) => { setFechaExpedicion(e.target.value); }}
-                            max={new Date().toISOString().split("T")[0]}
-                            min={new Date('01-01-1911').toISOString().split("T")[0]}
-                            required
-                            isInvalid={validarDatos && !fechaExpedicion}
-                        />
-                    </Form.Group>
-                </Col>
-            </Row>
-            <Row className="justify-content-center align-items-center flex-wrap">
-                <Col xs={12} sm={6} md={3} lg={3}>
-                    <Pais paisRef={paisSelectRef} idPaisUbicacion={1} onChange={handlePaisChange} />
-                </Col>
-                <Col xs={12} sm={6} md={5} lg={5}>
-                    <Departamento departamentoRef={departamentoSelectRef} idPais={idPaisUbicacion} onChange={handleDepartamentoChange} />
-                </Col>
-                <Col xs={12} sm={6} md={4} lg={4}>
-                    <Municipio municipioRef={municipioSelectRef} idDepartamento={idDepartamentoUbicacion} onChange={handleMunicipioGet} />
-                </Col>
-            </Row>
-            <Row className="mb-3">
-                <Form.Group as={Col} xs={12} md={6} className='mb-2 d-none' controlId="tipoEsquema">
-                    <Form.Label>Tipo de esquema <span style={{ color: 'red' }}>*</span></Form.Label>
-                    <InputGroup>
-                        <Form.Select
-                            as="select"
-                            value={tipoEsquema}
-                            disabled
-                            onChange={(e) => setTipoEsquema(e.target.value)}
-                            isInvalid={validarDatos && !tipoEsquema}
-                        >
-                            <option value="" disabled selected>Selecciona una Opción</option>
-                            <option value="individual" >Individual</option>
-                            <option value="colectivo">Colectivo</option>
-                        </Form.Select>
-                        <Form.Control.Feedback type="invalid">
-                            Este campo es obligatorio.
-                        </Form.Control.Feedback>
-                    </InputGroup>
-                </Form.Group>
-                <Form.Group as={Col} xs={12} md={6} controlId="medidasExtensivas">
-                    <Form.Label>Medidas extensivas a <span style={{ color: 'red' }}>*</span></Form.Label>
-                    <InputGroup>
-                        <Form.Select
-                            as="select"
-                            value={medidasExtensivas}
-                            required
-                            onChange={(e) => setMedidasExtensivas(e.target.value)}
-                            isInvalid={validarDatos && !medidasExtensivas}
-                        >
-                            <option value="" disabled selected>Selecciona una Opción</option>
-                            <option value="FAMILIAR">Familiar</option>
-                            <option value="FIRMANTE">Firmante </option>
-                            <option value="FIRMANTE DE PAZ">Firmate de paz</option>
-                            <option value="INDIVIDUAL">Individual</option>
-                            <option value="NO APLICA">No aplica</option>
-                            <option value="NO FIRMANTE DE PAZ">No firmante de paz</option>
-                            <option value="NO REGISTRA">No registra</option>
-                            <option value="PARTIDO COMUNES">Partido comunes</option>
-                            <option value="PARTIDO POLITICO">Partido politico</option>
-                            <option value="PNIS-PARTIDO COMUNES">PNIS-Partido comunes</option>
-                            <option value="REPRESENTANTE LEGAL DEL COMITE NACIONAL">Representante legal del comite nacional</option>
-                            <option value="UBPD-PARTIDO COMUNES">UBPD-Partido comunes</option>
-                        </Form.Select>
-                        <Form.Control.Feedback type="invalid">
-                            Este campo es obligatorio.
-                        </Form.Control.Feedback>
-                    </InputGroup>
-                </Form.Group>
-            </Row>
-            <Row className="mb-3">
-                {telefonos.map((telefono, index) => (
-                    <Form.Group as={Col} xs={12} md={6} className='mb-2' controlId={`telefono-${index}`} key={index}>
-                        <Form.Label>
-                            Teléfono {index + 1}:
-                            {index === 0 && <span style={{ color: 'red' }}>*</span>}
-                        </Form.Label>
-                        <InputGroup>
-                            <Form.Control
-                                type="number"
-                                value={telefono}
-                                min="0"
-                                pattern="\d*"
-                                onChange={(e) => handleTelefonoChange(index, e.target.value)}
-                                required={index === 0}
-                                isInvalid={validarDatos && !telefono}
-                            />
-                        </InputGroup>
-                    </Form.Group>
-                ))}
-            </Row>
-
-            <Row className="mb-3">
-                <Button className='col-4 mx-auto' variant="secondary" onClick={handleAgregarTelefono}>
-                    <FaPlusCircle /> Añadir Teléfono
-                </Button>
-
-                <Button variant="danger" onClick={() => handleRemoverTelefono(telefonos.length - 1)}
-                    disabled={telefonos.length === 1} className='col-4 mx-auto'>
-                    <FaTrash /> Eliminar Último Teléfono
-                </Button>
-            </Row>
-
-            <Row className="mb-3">
-                {/* Correo Electrónico */}
-                <Form.Group as={Col} xs={12} md={6} controlId="correoElectronico">
-                    <Form.Label>Correo Electrónico</Form.Label>
-                    <InputGroup>
-                        <Form.Control
-                            type="email"
-                            value={correoElectronico}
-                            onChange={(e) => setCorreoElectronico(e.target.value)}
-                        />
-                    </InputGroup>
-                </Form.Group>
-            </Row>
-
-            <Row className="mb-3">
-                {placas.map((placa, index) => (
-                    <Form.Group as={Col} xs={12} md={6} className='mb-2' controlId={`placa-${index}`} key={index}>
-                        <Form.Label>
-                            Placa {index + 1}:
-                            {index === 0 && <span style={{ color: 'red' }}>*</span>}
-                        </Form.Label>
+                    {/* Campo Segundo Nombre */}
+                    <Form.Group as={Col} xs={12} md={6} controlId="segundoNombre">
+                        <Form.Label>Segundo Nombre</Form.Label>
                         <InputGroup>
                             <Form.Control
                                 type="text"
-                                value={placa}
-                                onChange={(e) => handlePlacaChange(index, e.target.value)}
-                                required={index === 0}
-                                isInvalid={validarDatos && !placa}
+                                value={beneficiario.segundoNombre}
+                                onChange={(e) => handleBeneficiarioChange('segundoNombre', e.target.value)}
+
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                Este campo es obligatorio.
+                            </Form.Control.Feedback>
+                        </InputGroup>
+                    </Form.Group>
+
+                </Row>
+                <Row className="mb-3">
+                    {/* Campo Primer Apellido */}
+                    <Form.Group as={Col} xs={12} md={6} controlId="primerApellido">
+                        <Form.Label>Primer Apellido <span style={{ color: 'red' }}>*</span></Form.Label>
+                        <InputGroup>
+                            <Form.Control
+                                type="text"
+                                value={beneficiario.primerApellido}
+                                required
+                                isInvalid={validarDatos && !beneficiario.primerApellido}
+                                onChange={(e) => handleBeneficiarioChange('primerApellido', e.target.value)}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                Este campo es obligatorio.
+                            </Form.Control.Feedback>
+                        </InputGroup>
+                    </Form.Group>
+                    {/* Campo Segundo Apellido */}
+                    <Form.Group as={Col} xs={12} md={6} controlId="segundoApellido">
+                        <Form.Label>Segundo Apellido</Form.Label>
+                        <InputGroup>
+                            <Form.Control
+                                type="text"
+                                value={beneficiario.segundoApellido}
+                                onChange={(e) => handleBeneficiarioChange('segundoApellido', e.target.value)}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                Este campo es obligatorio.
+                            </Form.Control.Feedback>
+                        </InputGroup>
+                    </Form.Group>
+                </Row>
+
+                <Row className="mb-3">
+                    {/* Select para el Tipo de identificación */}
+                    <Col md={4} xs={12}>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Tipo de identificación <span className="text-danger">*</span></Form.Label>
+                            <Form.Select
+                                value={tipoSeleccionado}
+                                onChange={(e) => { setTipoSeleccionado(e.target.value); }}
+                                isInvalid={validarDatos && !tipoSeleccionado}
+                            >
+                                <option value="0">Seleccione un tipo</option>
+                                {tipoIdentificacion.map((tidentificacion) => (
+                                    <option key={tidentificacion.id_tidentificacion} value={tidentificacion.id_tidentificacion}>
+                                        {tidentificacion.nombre_tidentificacion}
+                                    </option>
+                                ))}
+                            </Form.Select>
+                        </Form.Group>
+                    </Col>
+
+                    {/* Input para el Número de identificación */}
+                    <Col md={4} xs={12}>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Nuip <span className="text-danger">*</span></Form.Label>
+                            <InputGroup>
+                                <Form.Control
+                                    type="text"
+                                    value={numeroIdentificacion}
+                                    onChange={(e) => { handleNumeroIdentificacionChange(e) }}
+                                    minLength={6}
+                                    maxLength={15}
+                                    isInvalid={validarDatos && !numeroIdentificacion}
+                                    required
+                                />
+                                <Button
+                                    variant="outline-secondary"
+                                    onClick={() => handleSearch('identificación', numeroIdentificacion)}>
+                                    <FaSearch />
+                                </Button>
+                                <Form.Control.Feedback type="invalid">
+                                    Este campo es obligatorio.
+                                </Form.Control.Feedback>
+                            </InputGroup>
+                        </Form.Group>
+                    </Col>
+
+                    {/* Input para la Fecha de expedición */}
+                    <Col md={4} xs={12}>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Fecha de expedición</Form.Label>
+                            <Form.Control
+                                type="date"
+                                value={fechaExpedicion}
+                                onChange={(e) => { setFechaExpedicion(e.target.value); }}
+                                max={new Date().toISOString().split("T")[0]}
+                                min={new Date('01-01-1911').toISOString().split("T")[0]}
+                                isInvalid={validarDatos && !fechaExpedicion}
+                            />
+                        </Form.Group>
+                    </Col>
+                </Row>
+                <Row className="justify-content-center align-items-center flex-wrap">
+                    <Col xs={12} sm={6} md={3} lg={3}>
+                        <Pais paisRef={paisSelectRef} idPaisUbicacion={1} onChange={handlePaisChange} />
+                    </Col>
+                    <Col xs={12} sm={6} md={5} lg={5}>
+                        <Departamento departamentoRef={departamentoSelectRef} idPais={idPaisUbicacion} onChange={handleDepartamentoChange} />
+                    </Col>
+                    <Col xs={12} sm={6} md={4} lg={4}>
+                        <Municipio municipioRef={municipioSelectRef} idDepartamento={idDepartamentoUbicacion} onChange={handleMunicipioGet} />
+                    </Col>
+                </Row>
+                <Row className="mb-3">
+                    <Form.Group as={Col} xs={12} md={6} className='mb-2 d-none' controlId="tipoEsquema">
+                        <Form.Label>Tipo de esquema <span style={{ color: 'red' }}>*</span></Form.Label>
+                        <InputGroup>
+                            <Form.Select
+                                as="select"
+                                value={tipoEsquema}
+                                disabled
+                                onChange={(e) => setTipoEsquema(e.target.value)}
+                                isInvalid={validarDatos && !tipoEsquema}
+                            >
+                                <option value="" disabled selected>Selecciona una Opción</option>
+                                <option value="individual" >Individual</option>
+                                <option value="colectivo">Colectivo</option>
+                            </Form.Select>
+                            <Form.Control.Feedback type="invalid">
+                                Este campo es obligatorio.
+                            </Form.Control.Feedback>
+                        </InputGroup>
+                    </Form.Group>
+                    <Form.Group as={Col} xs={12} md={6} controlId="medidasExtensivas">
+                        <Form.Label>Medidas extensivas a <span style={{ color: 'red' }}>*</span></Form.Label>
+                        <InputGroup>
+                            <Form.Select
+                                as="select"
+                                value={medidasExtensivas}
+                                required
+                                onChange={(e) => setMedidasExtensivas(e.target.value)}
+                                isInvalid={validarDatos && !medidasExtensivas}
+                            >
+                                <option value="" disabled selected>Selecciona una Opción</option>
+                                <option value="FAMILIAR">Familiar</option>
+                                <option value="FIRMANTE">Firmante </option>
+                                <option value="FIRMANTE DE PAZ">Firmate de paz</option>
+                                <option value="INDIVIDUAL">Individual</option>
+                                <option value="NO APLICA">No aplica</option>
+                                <option value="NO FIRMANTE DE PAZ">No firmante de paz</option>
+                                <option value="NO REGISTRA">No registra</option>
+                                <option value="PARTIDO COMUNES">Partido comunes</option>
+                                <option value="PARTIDO POLITICO">Partido politico</option>
+                                <option value="PNIS-PARTIDO COMUNES">PNIS-Partido comunes</option>
+                                <option value="REPRESENTANTE LEGAL DEL COMITE NACIONAL">Representante legal del comite nacional</option>
+                                <option value="UBPD-PARTIDO COMUNES">UBPD-Partido comunes</option>
+                            </Form.Select>
+                            <Form.Control.Feedback type="invalid">
+                                Este campo es obligatorio.
+                            </Form.Control.Feedback>
+                        </InputGroup>
+                    </Form.Group>
+                </Row>
+                <Row className="mb-3">
+                    {telefonos.map((telefono, index) => (
+                        <Form.Group as={Col} xs={12} md={6} className='mb-2' controlId={`telefono-${index}`} key={index}>
+                            <Form.Label>
+                                Teléfono {index + 1}:
+                                {index === 0 && <span style={{ color: 'red' }}>*</span>}
+                            </Form.Label>
+                            <InputGroup>
+                                <Form.Control
+                                    type="text"
+                                    pattern="\d{10}"
+                                    maxLength={10}
+                                    value={telefono}
+                                    onChange={(e) => handleTelefonoChange(index, e.target.value)}
+                                    required={index === 0}
+                                    isInvalid={validarDatos && !telefono}
+                                />
+                            </InputGroup>
+                        </Form.Group>
+                    ))}
+                </Row>
+
+                <Row className="mb-3">
+                    <Button className='col-4 mx-auto' variant="secondary" onClick={handleAgregarTelefono}>
+                        <FaPlusCircle /> Añadir Teléfono
+                    </Button>
+
+                    <Button variant="danger" onClick={() => handleRemoverTelefono(telefonos.length - 1)}
+                        disabled={telefonos.length === 1} className='col-4 mx-auto'>
+                        <FaTrash /> Eliminar Último Teléfono
+                    </Button>
+                </Row>
+
+                <Row className="mb-3">
+                    {/* Correo Electrónico */}
+                    <Form.Group as={Col} xs={12} md={6} controlId="correoElectronico">
+                        <Form.Label>Correo Electrónico</Form.Label>
+                        <InputGroup>
+                            <Form.Control
+                                type="email"
+                                value={correoElectronico}
+                                onChange={(e) => setCorreoElectronico(e.target.value)}
                             />
                         </InputGroup>
                     </Form.Group>
-                ))}
-            </Row>
+                </Row>
 
-            <Row className="mb-4">
-                <Button className='col-4 mx-auto' variant="secondary" onClick={handleAgregarPlaca}>
-                    <FaPlusCircle /> Añadir Placa
-                </Button>
-
-                <Button variant="danger" onClick={() => handleRemoverPlaca(placas.length - 1)}
-                    disabled={placas.length === 1} className='col-4 mx-auto'>
-                    <FaTrash /> Eliminar Última Placa
-                </Button>
-            </Row>
-
-
-            <Row className="mb-3">
-                <h4>Familiares</h4>
-                {familiares.map((familiar, index) => (
-                    <Row key={index} className="mb-3">
-                        <h5>Familiar {index + 1}</h5>
-                        <Col xs={12} md={4} className='mb-3'>
-                            <Form.Group controlId={`familiar-${index}-nombre`}>
-                                <Form.Label>Primer Nombre:</Form.Label>
+                <Row className="mb-3">
+                    {placas.map((placa, index) => (
+                        <Form.Group as={Col} xs={12} md={6} className='mb-2' controlId={`placa-${index}`} key={index}>
+                            <Form.Label>
+                                Placa {index + 1}:
+                                {index === 0 && <span style={{ color: 'red' }}>*</span>}
+                            </Form.Label>
+                            <InputGroup>
                                 <Form.Control
                                     type="text"
-                                    value={familiar.nombres.primerNombre}
-                                    onChange={(e) => handleFamiliarChange(index, 'nombres.primerNombre', e.target.value)}
+                                    value={placa}
+                                    onChange={(e) => handlePlacaChange(index, e.target.value)}
+                                    required={index === 0}
+                                    isInvalid={validarDatos && !placa}
                                 />
-                            </Form.Group>
-                        </Col>
+                                {index === 0 &&
+                                    <>
+                                        <Button
+                                            variant="outline-secondary"
+                                            onClick={() => handleSearch('placa', placa)}>
+                                            <FaSearch />
+                                        </Button>
+                                        <Form.Control.Feedback type="invalid">
+                                            Este campo es obligatorio.
+                                        </Form.Control.Feedback>
+                                    </>
+                                }
+                            </InputGroup>
+                        </Form.Group>
+                    ))}
+                </Row>
 
-                        <Col xs={12} md={4} className='mb-3'>
-                            <Form.Group controlId={`familiar-${index}-segundoNombre`}>
-                                <Form.Label>Segundo Nombre:</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    value={familiar.nombres.segundoNombre || ''}
-                                    onChange={(e) => handleFamiliarChange(index, 'nombres.segundoNombre', e.target.value)}
-                                />
-                            </Form.Group>
-                        </Col>
+                <Row className="mb-4">
+                    <Button className='col-4 mx-auto' variant="secondary" onClick={handleAgregarPlaca}>
+                        <FaPlusCircle /> Añadir Placa
+                    </Button>
 
-                        <Col xs={12} md={4} className='mb-3'>
-                            <Form.Group controlId={`familiar-${index}-apellido`}>
-                                <Form.Label>Primer Apellido:</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    value={familiar.nombres.primerApellido}
-                                    onChange={(e) => handleFamiliarChange(index, 'nombres.primerApellido', e.target.value)}
-                                />
-                            </Form.Group>
-                        </Col>
+                    <Button variant="danger" onClick={() => handleRemoverPlaca(placas.length - 1)}
+                        disabled={placas.length === 1} className='col-4 mx-auto'>
+                        <FaTrash /> Eliminar Última Placa
+                    </Button>
+                </Row>
 
-                        <Col xs={12} md={4} className='mb-3'>
-                            <Form.Group controlId={`familiar-${index}-segundoApellido`}>
-                                <Form.Label>Segundo Apellido:</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    value={familiar.nombres.segundoApellido || ''}
-                                    onChange={(e) => handleFamiliarChange(index, 'nombres.segundoApellido', e.target.value)}
-                                />
-                            </Form.Group>
-                        </Col>
 
-                        <Col xs={12} md={4}>
-                            <Form.Group controlId={`familiar-${index}-parentesco`}>
-                                <Form.Label>Parentesco:</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    value={familiar.parentesco}
-                                    onChange={(e) => handleFamiliarChange(index, 'parentesco', e.target.value)}
-                                />
-                            </Form.Group>
-                        </Col>
-                    </Row>
-                ))}
-            </Row>
+                <Row className="mb-3">
+                    <h4>Familiares</h4>
+                    {familiares.map((familiar, index) => (
+                        <Row key={index} className="mb-3">
+                            <h5>Familiar {index + 1}</h5>
+                            <Col xs={12} md={4} className='mb-3'>
+                                <Form.Group controlId={`familiar-${index}-nombre`}>
+                                    <Form.Label>Primer Nombre:</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        value={familiar.nombres.primerNombre}
+                                        onChange={(e) => handleFamiliarChange(index, 'nombres.primerNombre', e.target.value)}
+                                    />
+                                </Form.Group>
+                            </Col>
 
-            <Row className="mb-3">
-                <Button className="col-4 mx-auto" variant="secondary" onClick={handleAgregarFamiliar}>
-                    <FaPlusCircle /> Añadir Familiar
-                </Button>
+                            <Col xs={12} md={4} className='mb-3'>
+                                <Form.Group controlId={`familiar-${index}-segundoNombre`}>
+                                    <Form.Label>Segundo Nombre:</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        value={familiar.nombres.segundoNombre || ''}
+                                        onChange={(e) => handleFamiliarChange(index, 'nombres.segundoNombre', e.target.value)}
+                                    />
+                                </Form.Group>
+                            </Col>
 
-                <Button
-                    variant="danger"
-                    onClick={() => handleRemoverFamiliar(familiares.length - 1)}
-                    disabled={familiares.length === 0}
-                    className="col-4 mx-auto"
-                >
-                    <FaTrash /> Eliminar Último Familiar
-                </Button>
-            </Row>
+                            <Col xs={12} md={4} className='mb-3'>
+                                <Form.Group controlId={`familiar-${index}-apellido`}>
+                                    <Form.Label>Primer Apellido:</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        value={familiar.nombres.primerApellido}
+                                        onChange={(e) => handleFamiliarChange(index, 'nombres.primerApellido', e.target.value)}
+                                    />
+                                </Form.Group>
+                            </Col>
 
-            <Row className="mb-3">
-                <h4>Líder de Asignación</h4>
-                {/* Campo Primer Nombre */}
-                <Form.Group as={Col} xs={12} md={6} controlId="primerNombreLider">
-                    <Form.Label>Primer Nombre <span style={{ color: 'red' }}>*</span></Form.Label>
+                            <Col xs={12} md={4} className='mb-3'>
+                                <Form.Group controlId={`familiar-${index}-segundoApellido`}>
+                                    <Form.Label>Segundo Apellido:</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        value={familiar.nombres.segundoApellido || ''}
+                                        onChange={(e) => handleFamiliarChange(index, 'nombres.segundoApellido', e.target.value)}
+                                    />
+                                </Form.Group>
+                            </Col>
+
+                            <Col xs={12} md={4}>
+                                <Form.Group controlId={`familiar-${index}-parentesco`}>
+                                    <Form.Label>Parentesco:</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        value={familiar.parentesco}
+                                        onChange={(e) => handleFamiliarChange(index, 'parentesco', e.target.value)}
+                                    />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                    ))}
+                </Row>
+
+                <Row className="mb-3">
+                    <Button className="col-4 mx-auto" variant="secondary" onClick={handleAgregarFamiliar}>
+                        <FaPlusCircle /> Añadir Familiar
+                    </Button>
+
+                    <Button
+                        variant="danger"
+                        onClick={() => handleRemoverFamiliar(familiares.length - 1)}
+                        disabled={familiares.length === 0}
+                        className="col-4 mx-auto"
+                    >
+                        <FaTrash /> Eliminar Último Familiar
+                    </Button>
+                </Row>
+
+                <Row className="mb-3">
+                    <h4>Líder de Asignación</h4>
+                    {/* Campo Primer Nombre */}
+                    <Form.Group as={Col} xs={12} md={6} controlId="primerNombreLider">
+                        <Form.Label>Primer Nombre <span style={{ color: 'red' }}>*</span></Form.Label>
+                        <InputGroup>
+                            <Form.Control
+                                type="text"
+                                value={liderAsignado.primerNombre}
+                                required
+                                isInvalid={validarDatos && !liderAsignado.primerNombre}
+                                onChange={(e) => handleLiderChange('primerNombre', e.target.value)}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                Este campo es obligatorio.
+                            </Form.Control.Feedback>
+                        </InputGroup>
+                    </Form.Group>
+                    {/* Campo Segundo Nombre */}
+                    <Form.Group as={Col} xs={12} md={6} controlId="segundoNombreLider">
+                        <Form.Label>Segundo Nombre</Form.Label>
+                        <InputGroup>
+                            <Form.Control
+                                type="text"
+                                value={liderAsignado.segundoNombre}
+                                onChange={(e) => handleLiderChange('segundoNombre', e.target.value)}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                Este campo es obligatorio.
+                            </Form.Control.Feedback>
+                        </InputGroup>
+                    </Form.Group>
+                </Row>
+                <Row className="mb-3">
+                    {/* Campo Primer Apellido */}
+                    <Form.Group as={Col} xs={12} md={6} controlId="primerApellidoLider">
+                        <Form.Label>Primer Apellido <span style={{ color: 'red' }}>*</span></Form.Label>
+                        <InputGroup>
+                            <Form.Control
+                                type="text"
+                                value={liderAsignado.primerApellido}
+                                required
+                                isInvalid={validarDatos && !liderAsignado.primerApellido}
+                                onChange={(e) => handleLiderChange('primerApellido', e.target.value)}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                Este campo es obligatorio.
+                            </Form.Control.Feedback>
+                        </InputGroup>
+                    </Form.Group>
+                    {/* Campo Segundo Apellido */}
+                    <Form.Group as={Col} xs={12} md={6} controlId="segundoApellidoLider">
+                        <Form.Label>Segundo Apellido</Form.Label>
+                        <InputGroup>
+                            <Form.Control
+                                type="text"
+                                value={liderAsignado.segundoApellido}
+                                onChange={(e) => handleLiderChange('segundoApellido', e.target.value)}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                Este campo es obligatorio.
+                            </Form.Control.Feedback>
+                        </InputGroup>
+                    </Form.Group>
+                </Row>
+
+                <Row className="mb-3">
+                    <Form.Group as={Col} xs={12} md={6} controlId="enlacePonal">
+                        <Form.Label>Enlace Policia Nacional <span style={{ color: 'red' }}>*</span></Form.Label>
+                        <InputGroup>
+                            <Form.Control
+                                type="text"
+                                value={enlacePonal}
+                                required
+                                onChange={(e) => setEnlacePonal(e.target.value)}
+                                isInvalid={validarDatos && !enlacePonal}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                Este campo es obligatorio.
+                            </Form.Control.Feedback>
+                        </InputGroup>
+                    </Form.Group>
+                </Row>
+                <Form.Group as={Col} xs={12} md={12} controlId="resolucion">
+                    <Form.Label>Resolución <span style={{ color: 'red' }}>*</span></Form.Label>
                     <InputGroup>
                         <Form.Control
-                            type="text"
-                            value={liderAsignado.primerNombre}
+                            as="textarea"
+                            value={resolucion}
                             required
-                            isInvalid={validarDatos && !liderAsignado.primerNombre}
-                            onChange={(e) => handleLiderChange('primerNombre', e.target.value)}
+                            onChange={(e) => setResolucion(e.target.value)}
+                            maxLength={5000}
+                            isInvalid={validarDatos && !resolucion}
                         />
                         <Form.Control.Feedback type="invalid">
                             Este campo es obligatorio.
                         </Form.Control.Feedback>
                     </InputGroup>
                 </Form.Group>
-                {/* Campo Segundo Nombre */}
-                <Form.Group as={Col} xs={12} md={6} controlId="segundoNombreLider">
-                    <Form.Label>Segundo Nombre</Form.Label>
-                    <InputGroup>
-                        <Form.Control
-                            type="text"
-                            value={liderAsignado.segundoNombre}
-                            onChange={(e) => handleLiderChange('segundoNombre', e.target.value)}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            Este campo es obligatorio.
-                        </Form.Control.Feedback>
-                    </InputGroup>
-                </Form.Group>
-            </Row>
-            <Row className="mb-3">
-                {/* Campo Primer Apellido */}
-                <Form.Group as={Col} xs={12} md={6} controlId="primerApellidoLider">
-                    <Form.Label>Primer Apellido <span style={{ color: 'red' }}>*</span></Form.Label>
-                    <InputGroup>
-                        <Form.Control
-                            type="text"
-                            value={liderAsignado.primerApellido}
-                            required
-                            isInvalid={validarDatos && !liderAsignado.primerApellido}
-                            onChange={(e) => handleLiderChange('primerApellido', e.target.value)}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            Este campo es obligatorio.
-                        </Form.Control.Feedback>
-                    </InputGroup>
-                </Form.Group>
-                {/* Campo Segundo Apellido */}
-                <Form.Group as={Col} xs={12} md={6} controlId="segundoApellidoLider">
-                    <Form.Label>Segundo Apellido</Form.Label>
-                    <InputGroup>
-                        <Form.Control
-                            type="text"
-                            value={liderAsignado.segundoApellido}
-                            onChange={(e) => handleLiderChange('segundoApellido', e.target.value)}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            Este campo es obligatorio.
-                        </Form.Control.Feedback>
-                    </InputGroup>
-                </Form.Group>
-            </Row>
-
-            <Row className="mb-3">
-                <Form.Group as={Col} xs={12} md={6} controlId="enlacePonal">
-                    <Form.Label>Enlace Policia Nacional <span style={{ color: 'red' }}>*</span></Form.Label>
-                    <InputGroup>
-                        <Form.Control
-                            type="text"
-                            value={enlacePonal}
-                            required
-                            onChange={(e) => setEnlacePonal(e.target.value)}
-                            isInvalid={validarDatos && !enlacePonal}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            Este campo es obligatorio.
-                        </Form.Control.Feedback>
-                    </InputGroup>
-                </Form.Group>
-            </Row>
-            <Form.Group as={Col} xs={12} md={12} controlId="resolucion">
-                <Form.Label>Resolución <span style={{ color: 'red' }}>*</span></Form.Label>
-                <InputGroup>
-                    <Form.Control
-                        as="textarea"
-                        value={resolucion}
-                        required
-                        onChange={(e) => setResolucion(e.target.value)}
-                        maxLength={5000}
-                        isInvalid={validarDatos && !resolucion}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                        Este campo es obligatorio.
-                    </Form.Control.Feedback>
-                </InputGroup>
-            </Form.Group>
-        </CardForm>
+            </CardForm>
+        </>
     )
 };
 export default FormPonal;
