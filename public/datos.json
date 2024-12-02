@@ -1,0 +1,818 @@
+[
+    {
+        "cronos": "1",
+        "beneficiario": {
+            "primerNombre": "Juan",
+            "segundoNombre": "Luis",
+            "primerApellido": "Montero",
+            "segundoApellido": "Dias"
+        },
+        "tipoSeleccionadoBeneficiario": "1",
+        "numeroIdentificacionBeneficiario": "1051468415",
+        "fechaExpedicionBeneficiario": "2024-11-13",
+        "idPaisUbicacion": "1",
+        "idDepartamentoUbicacion": "47",
+        "idMunicipioUbicacion": "47551",
+        "tipoEsquema": "individual",
+        "rol": "PARTIDO COMUNES",
+        "correoElectronico": "abd.rinds@unp.gov.co",
+        "telefonos": [
+            "3243242432",
+            "3243242432",
+            "3243242432",
+            "3243242432"
+        ],
+        "vehiculos": [
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "convencional",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "blindado",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "convencional",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "blindado",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "blindado",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "convencional",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "convencional",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "blindado",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "convencional",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "blindado",
+                "color": "AZUL"
+            }
+        ],
+        "familiares": [
+            {
+                "nombres": {
+                    "primerNombre": "Juan",
+                    "primerApellido": "Pérez",
+                    "segundoNombre": "Carlos",
+                    "segundoApellido": "Gómez"
+                },
+                "parentesco": "Hermano"
+            },
+            {
+                "nombres": {
+                    "primerNombre": "María",
+                    "primerApellido": "Rodríguez",
+                    "segundoNombre": "Fernanda",
+                    "segundoApellido": "López"
+                },
+                "parentesco": "Madre"
+            },
+            {
+                "nombres": {
+                    "primerNombre": "Andrés",
+                    "primerApellido": "Martínez",
+                    "segundoNombre": "Felipe",
+                    "segundoApellido": "Ramírez"
+                },
+                "parentesco": "Tío"
+            },
+            {
+                "nombres": {
+                    "primerNombre": "Laura",
+                    "primerApellido": "Sánchez",
+                    "segundoNombre": "Vanessa",
+                    "segundoApellido": "Castillo"
+                },
+                "parentesco": "Prima"
+            }
+        ],
+        "enlaceAsignado": {
+            "primerNombre": "Carlos",
+            "segundoNombre": "Eduardo",
+            "primerApellido": "Ramírez",
+            "segundoApellido": "Sánchez"
+        },
+        "tipoSeleccionadoEnlace": "3",
+        "numeroIdentificacionEnlace": "123456789",
+        "fechaExpedicionEnlace": "2024-11-12",
+        "telefonoEnlace": "3243243243",
+        "enlacePonal": "aergraegare",
+        "resolucion": "aergraegareaergraegareaergraegareaergraegare"
+    },
+    {
+        "cronos": "1",
+        "beneficiario": {
+            "primerNombre": "Juan",
+            "segundoNombre": "Luis",
+            "primerApellido": "Montero",
+            "segundoApellido": "Dias"
+        },
+        "tipoSeleccionadoBeneficiario": "1",
+        "numeroIdentificacionBeneficiario": "1051468415",
+        "fechaExpedicionBeneficiario": "2024-11-13",
+        "idPaisUbicacion": "1",
+        "idDepartamentoUbicacion": "47",
+        "idMunicipioUbicacion": "47551",
+        "tipoEsquema": "individual",
+        "rol": "PARTIDO COMUNES",
+        "correoElectronico": "abd.rinds@unp.gov.co",
+        "telefonos": [
+            "3243242432",
+            "3243242432",
+            "3243242432",
+            "3243242432"
+        ],
+        "vehiculos": [
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "convencional",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "blindado",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "convencional",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "blindado",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "blindado",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "convencional",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "convencional",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "blindado",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "convencional",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "blindado",
+                "color": "AZUL"
+            }
+        ],
+        "familiares": [
+            {
+                "nombres": {
+                    "primerNombre": "Juan",
+                    "primerApellido": "Pérez",
+                    "segundoNombre": "Carlos",
+                    "segundoApellido": "Gómez"
+                },
+                "parentesco": "Hermano"
+            },
+            {
+                "nombres": {
+                    "primerNombre": "María",
+                    "primerApellido": "Rodríguez",
+                    "segundoNombre": "Fernanda",
+                    "segundoApellido": "López"
+                },
+                "parentesco": "Madre"
+            },
+            {
+                "nombres": {
+                    "primerNombre": "Andrés",
+                    "primerApellido": "Martínez",
+                    "segundoNombre": "Felipe",
+                    "segundoApellido": "Ramírez"
+                },
+                "parentesco": "Tío"
+            },
+            {
+                "nombres": {
+                    "primerNombre": "Laura",
+                    "primerApellido": "Sánchez",
+                    "segundoNombre": "Vanessa",
+                    "segundoApellido": "Castillo"
+                },
+                "parentesco": "Prima"
+            }
+        ],
+        "enlaceAsignado": {
+            "primerNombre": "Carlos",
+            "segundoNombre": "Eduardo",
+            "primerApellido": "Ramírez",
+            "segundoApellido": "Sánchez"
+        },
+        "tipoSeleccionadoEnlace": "3",
+        "numeroIdentificacionEnlace": "123456789",
+        "fechaExpedicionEnlace": "2024-11-12",
+        "telefonoEnlace": "3243243243",
+        "enlacePonal": "aergraegare",
+        "resolucion": "aergraegareaergraegareaergraegareaergraegare"
+    },
+    {
+        "cronos": "1",
+        "beneficiario": {
+            "primerNombre": "Juan",
+            "segundoNombre": "Luis",
+            "primerApellido": "Montero",
+            "segundoApellido": "Dias"
+        },
+        "tipoSeleccionadoBeneficiario": "1",
+        "numeroIdentificacionBeneficiario": "1051468415",
+        "fechaExpedicionBeneficiario": "2024-11-13",
+        "idPaisUbicacion": "1",
+        "idDepartamentoUbicacion": "47",
+        "idMunicipioUbicacion": "47551",
+        "tipoEsquema": "individual",
+        "rol": "PARTIDO COMUNES",
+        "correoElectronico": "abd.rinds@unp.gov.co",
+        "telefonos": [
+            "3243242432",
+            "3243242432",
+            "3243242432",
+            "3243242432"
+        ],
+        "vehiculos": [
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "convencional",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "blindado",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "convencional",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "blindado",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "blindado",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "convencional",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "convencional",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "blindado",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "convencional",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "blindado",
+                "color": "AZUL"
+            }
+        ],
+        "familiares": [
+            {
+                "nombres": {
+                    "primerNombre": "Juan",
+                    "primerApellido": "Pérez",
+                    "segundoNombre": "Carlos",
+                    "segundoApellido": "Gómez"
+                },
+                "parentesco": "Hermano"
+            },
+            {
+                "nombres": {
+                    "primerNombre": "María",
+                    "primerApellido": "Rodríguez",
+                    "segundoNombre": "Fernanda",
+                    "segundoApellido": "López"
+                },
+                "parentesco": "Madre"
+            },
+            {
+                "nombres": {
+                    "primerNombre": "Andrés",
+                    "primerApellido": "Martínez",
+                    "segundoNombre": "Felipe",
+                    "segundoApellido": "Ramírez"
+                },
+                "parentesco": "Tío"
+            },
+            {
+                "nombres": {
+                    "primerNombre": "Laura",
+                    "primerApellido": "Sánchez",
+                    "segundoNombre": "Vanessa",
+                    "segundoApellido": "Castillo"
+                },
+                "parentesco": "Prima"
+            }
+        ],
+        "enlaceAsignado": {
+            "primerNombre": "Carlos",
+            "segundoNombre": "Eduardo",
+            "primerApellido": "Ramírez",
+            "segundoApellido": "Sánchez"
+        },
+        "tipoSeleccionadoEnlace": "3",
+        "numeroIdentificacionEnlace": "123456789",
+        "fechaExpedicionEnlace": "2024-11-12",
+        "telefonoEnlace": "3243243243",
+        "enlacePonal": "aergraegare",
+        "resolucion": "aergraegareaergraegareaergraegareaergraegare"
+    },
+    {
+        "cronos": "1",
+        "beneficiario": {
+            "primerNombre": "Juan",
+            "segundoNombre": "Luis",
+            "primerApellido": "Montero",
+            "segundoApellido": "Dias"
+        },
+        "tipoSeleccionadoBeneficiario": "1",
+        "numeroIdentificacionBeneficiario": "1051468415",
+        "fechaExpedicionBeneficiario": "2024-11-13",
+        "idPaisUbicacion": "1",
+        "idDepartamentoUbicacion": "47",
+        "idMunicipioUbicacion": "47551",
+        "tipoEsquema": "individual",
+        "rol": "PARTIDO COMUNES",
+        "correoElectronico": "abd.rinds@unp.gov.co",
+        "telefonos": [
+            "3243242432",
+            "3243242432",
+            "3243242432",
+            "3243242432"
+        ],
+        "vehiculos": [
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "convencional",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "blindado",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "convencional",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "blindado",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "blindado",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "convencional",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "convencional",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "blindado",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "convencional",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "blindado",
+                "color": "AZUL"
+            }
+        ],
+        "familiares": [
+            {
+                "nombres": {
+                    "primerNombre": "Juan",
+                    "primerApellido": "Pérez",
+                    "segundoNombre": "Carlos",
+                    "segundoApellido": "Gómez"
+                },
+                "parentesco": "Hermano"
+            },
+            {
+                "nombres": {
+                    "primerNombre": "María",
+                    "primerApellido": "Rodríguez",
+                    "segundoNombre": "Fernanda",
+                    "segundoApellido": "López"
+                },
+                "parentesco": "Madre"
+            },
+            {
+                "nombres": {
+                    "primerNombre": "Andrés",
+                    "primerApellido": "Martínez",
+                    "segundoNombre": "Felipe",
+                    "segundoApellido": "Ramírez"
+                },
+                "parentesco": "Tío"
+            },
+            {
+                "nombres": {
+                    "primerNombre": "Laura",
+                    "primerApellido": "Sánchez",
+                    "segundoNombre": "Vanessa",
+                    "segundoApellido": "Castillo"
+                },
+                "parentesco": "Prima"
+            }
+        ],
+        "enlaceAsignado": {
+            "primerNombre": "Carlos",
+            "segundoNombre": "Eduardo",
+            "primerApellido": "Ramírez",
+            "segundoApellido": "Sánchez"
+        },
+        "tipoSeleccionadoEnlace": "3",
+        "numeroIdentificacionEnlace": "123456789",
+        "fechaExpedicionEnlace": "2024-11-12",
+        "telefonoEnlace": "3243243243",
+        "enlacePonal": "aergraegare",
+        "resolucion": "aergraegareaergraegareaergraegareaergraegare"
+    },
+    {
+        "cronos": "1",
+        "beneficiario": {
+            "primerNombre": "Juan",
+            "segundoNombre": "Luis",
+            "primerApellido": "Montero",
+            "segundoApellido": "Dias"
+        },
+        "tipoSeleccionadoBeneficiario": "1",
+        "numeroIdentificacionBeneficiario": "1051468415",
+        "fechaExpedicionBeneficiario": "2024-11-13",
+        "idPaisUbicacion": "1",
+        "idDepartamentoUbicacion": "47",
+        "idMunicipioUbicacion": "47551",
+        "tipoEsquema": "individual",
+        "rol": "PARTIDO COMUNES",
+        "correoElectronico": "abd.rinds@unp.gov.co",
+        "telefonos": [
+            "3243242432",
+            "3243242432",
+            "3243242432",
+            "3243242432"
+        ],
+        "vehiculos": [
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "convencional",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "blindado",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "convencional",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "blindado",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "blindado",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "convencional",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "convencional",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "blindado",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "convencional",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "blindado",
+                "color": "AZUL"
+            }
+        ],
+        "familiares": [
+            {
+                "nombres": {
+                    "primerNombre": "Juan",
+                    "primerApellido": "Pérez",
+                    "segundoNombre": "Carlos",
+                    "segundoApellido": "Gómez"
+                },
+                "parentesco": "Hermano"
+            },
+            {
+                "nombres": {
+                    "primerNombre": "María",
+                    "primerApellido": "Rodríguez",
+                    "segundoNombre": "Fernanda",
+                    "segundoApellido": "López"
+                },
+                "parentesco": "Madre"
+            },
+            {
+                "nombres": {
+                    "primerNombre": "Andrés",
+                    "primerApellido": "Martínez",
+                    "segundoNombre": "Felipe",
+                    "segundoApellido": "Ramírez"
+                },
+                "parentesco": "Tío"
+            },
+            {
+                "nombres": {
+                    "primerNombre": "Laura",
+                    "primerApellido": "Sánchez",
+                    "segundoNombre": "Vanessa",
+                    "segundoApellido": "Castillo"
+                },
+                "parentesco": "Prima"
+            }
+        ],
+        "enlaceAsignado": {
+            "primerNombre": "Carlos",
+            "segundoNombre": "Eduardo",
+            "primerApellido": "Ramírez",
+            "segundoApellido": "Sánchez"
+        },
+        "tipoSeleccionadoEnlace": "3",
+        "numeroIdentificacionEnlace": "123456789",
+        "fechaExpedicionEnlace": "2024-11-12",
+        "telefonoEnlace": "3243243243",
+        "enlacePonal": "aergraegare",
+        "resolucion": "aergraegareaergraegareaergraegareaergraegare"
+    },
+    {
+        "cronos": "1",
+        "beneficiario": {
+            "primerNombre": "Juan",
+            "segundoNombre": "Luis",
+            "primerApellido": "Montero",
+            "segundoApellido": "Dias"
+        },
+        "tipoSeleccionadoBeneficiario": "1",
+        "numeroIdentificacionBeneficiario": "1051468415",
+        "fechaExpedicionBeneficiario": "2024-11-13",
+        "idPaisUbicacion": "1",
+        "idDepartamentoUbicacion": "47",
+        "idMunicipioUbicacion": "47551",
+        "tipoEsquema": "individual",
+        "rol": "PARTIDO COMUNES",
+        "correoElectronico": "abd.rinds@unp.gov.co",
+        "telefonos": [
+            "3243242432",
+            "3243242432",
+            "3243242432",
+            "3243242432"
+        ],
+        "vehiculos": [
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "convencional",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "blindado",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "convencional",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "blindado",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "blindado",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "convencional",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "convencional",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "blindado",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "convencional",
+                "color": "AZUL"
+            },
+            {
+                "placa": "ABC123",
+                "marca": "FIAT",
+                "tipo": "blindado",
+                "color": "AZUL"
+            }
+        ],
+        "familiares": [
+            {
+                "nombres": {
+                    "primerNombre": "Juan",
+                    "primerApellido": "Pérez",
+                    "segundoNombre": "Carlos",
+                    "segundoApellido": "Gómez"
+                },
+                "parentesco": "Hermano"
+            },
+            {
+                "nombres": {
+                    "primerNombre": "María",
+                    "primerApellido": "Rodríguez",
+                    "segundoNombre": "Fernanda",
+                    "segundoApellido": "López"
+                },
+                "parentesco": "Madre"
+            },
+            {
+                "nombres": {
+                    "primerNombre": "Andrés",
+                    "primerApellido": "Martínez",
+                    "segundoNombre": "Felipe",
+                    "segundoApellido": "Ramírez"
+                },
+                "parentesco": "Tío"
+            },
+            {
+                "nombres": {
+                    "primerNombre": "Laura",
+                    "primerApellido": "Sánchez",
+                    "segundoNombre": "Vanessa",
+                    "segundoApellido": "Castillo"
+                },
+                "parentesco": "Prima"
+            }
+        ],
+        "enlaceAsignado": {
+            "primerNombre": "Carlos",
+            "segundoNombre": "Eduardo",
+            "primerApellido": "Ramírez",
+            "segundoApellido": "Sánchez"
+        },
+        "tipoSeleccionadoEnlace": "3",
+        "numeroIdentificacionEnlace": "123456789",
+        "fechaExpedicionEnlace": "2024-11-12",
+        "telefonoEnlace": "3243243243",
+        "enlacePonal": "aergraegare",
+        "resolucion": "aergraegareaergraegareaergraegareaergraegare"
+    }
+]

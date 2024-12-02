@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
 // Elementos de Bootstrap
-import { FormGroup, FormLabel, FormSelect } from 'react-bootstrap';
+import { FormGroup, FormLabel, FormSelect, FormControl } from 'react-bootstrap';
 
-const Departamento = ({ idPais, onChange, departamentoRef })  => {
+const Departamento = ({ idPais, onChange, departamentoRef, isInvalid }) => {
   const [departamentos, setDepartamentos] = useState([]);
   const [departamentoSeleccionado, setDepartamentoSeleccionado] = useState('0');
 
@@ -15,7 +15,7 @@ const Departamento = ({ idPais, onChange, departamentoRef })  => {
     const obtenerDepartamentos = async () => {
       try {
         const urlDepartamento = process.env.REACT_APP_URL + 'sistema/departamento/?pais=';
-        const url =  `${urlDepartamento}${idPais}`;
+        const url = `${urlDepartamento}${idPais}`;
         const response = await fetch(url);
         if (response.ok) {
           const data = await response.json();
@@ -46,22 +46,28 @@ const Departamento = ({ idPais, onChange, departamentoRef })  => {
 
   return (
     <FormGroup className="mb-3">
-        <FormLabel>Departamento <span className="text-danger">*</span></FormLabel>
-        <FormSelect
-          ref={departamentoRef}
-          value={departamentoSeleccionado}
-          onChange={handleDepartamentoChange}
-          disabled={idPais == 0 ? true : false}
-          style={idPais == 0 ? selectDisabledStyle : {}}
-        >
+      <FormLabel>Departamento <span className="text-danger">*</span></FormLabel>
+      <FormSelect
+        as="select"
+        ref={departamentoRef}
+        required
+        isInvalid={isInvalid}
+        value={departamentoSeleccionado}
+        onChange={handleDepartamentoChange}
+        disabled={idPais == 0 ? true : false}
+        style={idPais == 0 ? selectDisabledStyle : {}}
+      >
 
-          <option value="0" style={{color: 'darkgray'}}>Seleccione...</option>
-          {departamentos.map((departamento) => (
-            <option key={departamento.id_departamento} value={departamento.id_departamento}>
-              {departamento.nombre_departamento}
-            </option>
-          ))}
-        </FormSelect>
+        <option value="" style={{ color: 'darkgray' }}>Seleccione...</option>
+        {departamentos.map((departamento) => (
+          <option key={departamento.id_departamento} value={departamento.id_departamento}>
+            {departamento.nombre_departamento}
+          </option>
+        ))}
+      </FormSelect>
+      <FormControl.Feedback type="invalid">
+        Este campo es requerido
+      </FormControl.Feedback>
     </FormGroup>
   );
 }

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
 // Elementos de Bootstrap
-import { FormGroup, FormLabel, FormSelect } from 'react-bootstrap';
+import { FormGroup, FormLabel, FormSelect, FormControl } from 'react-bootstrap';
 
-const Pais = ({ idPaisUbicacion, onChange, paisRef }) => {
+const Pais = ({ idPaisUbicacion, onChange, paisRef, isInvalid }) => {
   const [paises, setPaises] = useState([]);
   const [paisSeleccionado, setPaisSeleccionado] = useState('0');
 
@@ -23,7 +23,7 @@ const Pais = ({ idPaisUbicacion, onChange, paisRef }) => {
           console.error('Hubo un error al obtener los datos de los países:', response.status);
         }
       } catch (error) {
-        
+
         console.error('Hubo un error al obtener los datos de los países:', error);
       }
     };
@@ -41,14 +41,24 @@ const Pais = ({ idPaisUbicacion, onChange, paisRef }) => {
   return (
     <FormGroup className="mb-3">
       <FormLabel>País <span className="text-danger">*</span></FormLabel>
-      <FormSelect ref={paisRef} value={paisSeleccionado} onChange={handlePaisChange}>
-        <option value="0" disabled >Seleccione...</option>
+      <FormSelect
+        as="select"
+        ref={paisRef}
+        value={paisSeleccionado}
+        onChange={handlePaisChange}
+        isInvalid={isInvalid}
+        required
+      >
+        <option value="" disabled selected>Seleccione...</option>
         {paises.map((pais) => (
           <option key={pais.id_pais} value={pais.id_pais}>
             {pais.nombre_pais}
           </option>
         ))}
       </FormSelect>
+      <FormControl.Feedback type="invalid">
+        Este campo es requerido
+      </FormControl.Feedback>
     </FormGroup>
   );
 };

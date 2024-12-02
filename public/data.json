@@ -1,72 +1,136 @@
 {
+    "cronos": "1",
     "beneficiario": {
         "primerNombre": "Juan",
         "segundoNombre": "Luis",
         "primerApellido": "Montero",
         "segundoApellido": "Dias"
     },
-    "tipoSeleccionado": "2",
-    "numeroIdentificacion": "4323243424",
-    "fechaExpedicion": "2024-11-20",
+    "tipoSeleccionadoBeneficiario": "1",
+    "numeroIdentificacionBeneficiario": "1051468415",
+    "fechaExpedicionBeneficiario": "2024-11-13",
     "idPaisUbicacion": "1",
     "idDepartamentoUbicacion": "47",
-    "idMunicipioUbicacion": "47570",
+    "idMunicipioUbicacion": "47551",
     "tipoEsquema": "individual",
-    "medidasExtensivas": "FIRMANTE DE PAZ",
+    "rol": "PARTIDO COMUNES",
     "correoElectronico": "abd.rinds@unp.gov.co",
     "telefonos": [
-        "343243234",
-        "343243234",
-        "343243234",
-        "343243234"
+        "3243242432",
+        "3243242432",
+        "3243242432",
+        "3243242432"
     ],
-    "placas": [
-        "564efe",
-        "564efe",
-        "564efe",
-        "564efe",
-        "564efe",
-        "564efe",
-        "564efe",
-        "564efe",
-        "564efe",
-        "564efe"
+    "vehiculos": [
+        {
+            "placa": "ABC123",
+            "marca": "FIAT",
+            "tipo": "convencional",
+            "color": "AZUL"
+        },
+        {
+            "placa": "ABC123",
+            "marca": "FIAT",
+            "tipo": "blindado",
+            "color": "AZUL"
+        },
+        {
+            "placa": "ABC123",
+            "marca": "FIAT",
+            "tipo": "convencional",
+            "color": "AZUL"
+        },
+        {
+            "placa": "ABC123",
+            "marca": "FIAT",
+            "tipo": "blindado",
+            "color": "AZUL"
+        },
+        {
+            "placa": "ABC123",
+            "marca": "FIAT",
+            "tipo": "blindado",
+            "color": "AZUL"
+        },
+        {
+            "placa": "ABC123",
+            "marca": "FIAT",
+            "tipo": "convencional",
+            "color": "AZUL"
+        },
+        {
+            "placa": "ABC123",
+            "marca": "FIAT",
+            "tipo": "convencional",
+            "color": "AZUL"
+        },
+        {
+            "placa": "ABC123",
+            "marca": "FIAT",
+            "tipo": "blindado",
+            "color": "AZUL"
+        },
+        {
+            "placa": "ABC123",
+            "marca": "FIAT",
+            "tipo": "convencional",
+            "color": "AZUL"
+        },
+        {
+            "placa": "ABC123",
+            "marca": "FIAT",
+            "tipo": "blindado",
+            "color": "AZUL"
+        }
     ],
     "familiares": [
         {
             "nombres": {
-                "primerNombre": "eae",
-                "primerApellido": "wea",
-                "segundoNombre": "ewaawe",
-                "segundoApellido": "wawea"
+                "primerNombre": "Juan",
+                "primerApellido": "Pérez",
+                "segundoNombre": "Carlos",
+                "segundoApellido": "Gómez"
             },
-            "parentesco": "weawe"
+            "parentesco": "Hermano"
         },
         {
             "nombres": {
-                "primerNombre": "weaaw",
-                "primerApellido": "weaaw",
-                "segundoNombre": "weaaw",
-                "segundoApellido": "weaaw"
+                "primerNombre": "María",
+                "primerApellido": "Rodríguez",
+                "segundoNombre": "Fernanda",
+                "segundoApellido": "López"
             },
-            "parentesco": "weaaw"
+            "parentesco": "Madre"
         },
         {
             "nombres": {
-                "primerNombre": "weaaw",
-                "primerApellido": "weaaw",
-                "segundoNombre": "weaaw",
-                "segundoApellido": "weaaw"
+                "primerNombre": "Andrés",
+                "primerApellido": "Martínez",
+                "segundoNombre": "Felipe",
+                "segundoApellido": "Ramírez"
             },
-            "parentesco": "weaaw"
+            "parentesco": "Tío"
+        },
+        {
+            "nombres": {
+                "primerNombre": "Laura",
+                "primerApellido": "Sánchez",
+                "segundoNombre": "Vanessa",
+                "segundoApellido": "Castillo"
+            },
+            "parentesco": "Prima"
         }
     ],
-    "liderAsignado": {
+    "enlaceAsignado": {
         "primerNombre": "Carlos",
-        "segundoNombre": "we",
-        "primerApellido": "ewa",
-        "segundoApellido": "reeew"
+        "segundoNombre": "Eduardo",
+        "primerApellido": "Ramírez",
+        "segundoApellido": "Sánchez"
     },
+    "tipoSeleccionadoEnlace": "3",
+    "numeroIdentificacionEnlace": "123456789",
+    "fechaExpedicionEnlace": "2024-11-12",
+    "telefonoEnlace": "3243243243",
     "enlacePonal": "aergraegare",
-    "resolucion": "Resolucion awigferjoia"
+    "resolucion": "aergraegareaergraegareaergraegareaergraegare"
 }
