@@ -67,7 +67,7 @@ const FormPonal: React.FC = () => {
     // Variable para identificar si esta cargando los datos de la busqueda
     const [cargando, setCargando] = useState(false);
 
-    
+
     // Handle Beneficiario
     const handleBeneficiarioChange = (field: keyof Nombres, value: string) => {
         setBeneficiario((prevState) => ({
@@ -682,6 +682,9 @@ const FormPonal: React.FC = () => {
                                     required={index === 0}
                                     isInvalid={validarDatos && !telefono}
                                 />
+                                <Form.Control.Feedback type="invalid">
+                                    El número debe tener el formato 312 345 6789.
+                                </Form.Control.Feedback>
                             </InputGroup>
                         </Form.Group>
                     ))}
@@ -725,6 +728,7 @@ const FormPonal: React.FC = () => {
                                     <Form.Control
                                         type="text"
                                         value={vehiculo.placa}
+                                        maxLength={6}
                                         onChange={(e) => handleVehiculoChange(index, 'placa', e.target.value)}
                                         required={index === 0}
                                         isInvalid={validarDatos && !validarPlaca(vehiculo.placa) && vehiculo.placa.length > 0}
